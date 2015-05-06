@@ -1,5 +1,4 @@
 #include "main.h"
-//#include "Task.h"
 
 void vShellRxGuardianTask(void *pvParameters)
 {
@@ -15,8 +14,8 @@ void vShellRxGuardianTask(void *pvParameters)
 				{
 					xSemaphoreGive(InPoolCounterMutex);
 					
-					arm_copy_q7(pBuffer, inBuffer, INBUFFERSIZE);
-					arm_fill_q7(0, pBuffer, INBUFFERSIZE);
+					arm_copy_q7((q7_t*) pBuffer, (q7_t*) inBuffer, INBUFFERSIZE);
+					arm_fill_q7(0, (q7_t*) pBuffer, INBUFFERSIZE);
 					xSemaphoreGive(InPoolEmpty);
 				}			
 			}

@@ -91,7 +91,7 @@ int PointOnline(LinearEquation Line, Coordinate MidPoint, float Distance, Coordi
 		LPoint->X = MidPoint.X - deltaX;
 		LPoint->Y = MidPoint.Y - deltaY;
 	}
-	if (deltaX = 0)
+	if (0 == deltaX)
 	{
 		if (deltaY > 0)
 		{
