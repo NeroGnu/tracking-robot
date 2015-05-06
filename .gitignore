@@ -1,15 +1,12 @@
 # Object files
 *.o
-*.ko
-*.obj
-*.elf
 
 # Precompiled Headers
 *.gch
 *.pch
 
 # Libraries
-*.lib
+#*.lib
 *.a
 *.la
 *.lo
@@ -30,3 +27,23 @@
 
 # Debug files
 *.dSYM/
+
+# Keil
+*.lst
+*.bak
+*.dep
+*.map
+*.sct
+*.tra
+*.__i
+
+# Dependency
+*.d
+
+# Output
+*.htm
+*.axf
+*.sca
+*.crf
+*.iex
+*.lnp
