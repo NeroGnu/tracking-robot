@@ -6,5 +6,6 @@
 #include "compass.h"
 #include "i2c.h"
 #include "RFID_serial.h"
+#include "AHRS.h"
 
 #endif

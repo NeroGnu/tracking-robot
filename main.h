@@ -44,6 +44,8 @@ void vDecisionTask(void *pvParameters);
 
 void vSeeTargetPosListMaintain(void *pvParameters);
 
+void vGetYawTask(void *pvParameters);
+
 /**********extern from main***************/
 /* Uart IO pool resource semaphore. */
 extern xSemaphoreHandle OutBufferMutex, OutPoolNum, InPoolEmpty, InPoolCounterMutex, InPoolFull;
@@ -78,6 +80,9 @@ extern xSemaphoreHandle ForwardStopEnable;
 extern xSemaphoreHandle MoveStopEnable;
 
 extern xSemaphoreHandle ComunicationWithBoardSyn;
+
+/* AHRS data synchronization*/
+extern xSemaphoreHandle AHRS_Syn;
 
 //****************************************************
 /*find the target*/
@@ -115,6 +120,7 @@ extern xQueueHandle CC2500TxQueue;
 
 /* TargetATPos Queue. */
 extern xQueueHandle TargetATPosQueue;
+
 
 extern xQueueHandle TimeTestQueue;
 
