@@ -26,7 +26,7 @@ void vGetYawTask(void *pvParameters)
 			if (AHRS_Check())
 			{
 				offset = AHRS_GetYaw();
-				printf("Yaw=%f\n", AHRS_GetYaw());
+//				printf("Yaw=%f\n", AHRS_GetYaw());
 			}
 		}
 	}
@@ -51,6 +51,7 @@ void vGetYawTask(void *pvParameters)
 				}
 				
 				CurAngle = temp > 0 ? (180.0 - temp) : (-180 - temp);
+//				Debug_printf("CurAngle is %f\r\n", CurAngle);
 			}
 		}
 	}

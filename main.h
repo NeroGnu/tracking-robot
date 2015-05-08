@@ -6,7 +6,6 @@
 #include "drivers.h"
 #include "app.h"
 #include "Public.h"
-//#include "Task.h"
 
 #define STACK_SIZE_MIN	128	/* usStackDepth	- the stack size DEFINED IN WORDS.*/
 
@@ -84,9 +83,13 @@ extern xSemaphoreHandle ComunicationWithBoardSyn;
 /* AHRS data synchronization*/
 extern xSemaphoreHandle AHRS_Syn;
 
-//****************************************************
 /*find the target*/
 extern xSemaphoreHandle FoundTargetSyn;
+
+/* System output semaphore */
+extern xSemaphoreHandle OutputMutex;
+
+//****************************************************
 
 /* Move command queue.*/
 extern xQueueHandle MoveCmdQueue;
@@ -140,5 +143,10 @@ extern Procedure GlobleCurProcedure;
 extern Position TargetPositionList[TARGETNUM];
 extern TargetATPos SeeTargetPosList[TARGETNUM];
 extern char SelfConfluentEfficiency[TARGETNUM + 1];
+
+#define SystemOut(fmt,args...) \
+xSemaphoreTake(OutputMutex,portMAX_DELAY);\
+printf(fmt,##args);\
+xSemaphoreGive(OutputMutex)
 
 #endif

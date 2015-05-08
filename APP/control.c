@@ -51,6 +51,10 @@ double computeAngle(double distance, double deltaX)
 	return ((-11.6/pow(distance, 2.275) + 0.09782) * deltaX);
 }
 
+void none_printf(char *fmt, ...)
+{
+	return;
+}
 
 int ifCollision(float x1, float y1, float x2, float y2)
 {

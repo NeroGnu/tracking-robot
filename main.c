@@ -43,9 +43,14 @@ xSemaphoreHandle MoveStopEnable;
 /* AHRS data synchronization */
 xSemaphoreHandle AHRS_Syn;
 
-//****************************************************
 /*find the target*/
 xSemaphoreHandle FoundTargetSyn;
+
+/* System output semaphore */
+xSemaphoreHandle OutputMutex;
+
+//****************************************************
+
 
 /* Move command queue.*/
 xQueueHandle MoveCmdQueue;
@@ -185,6 +190,8 @@ int main(void)
 	ComunicationWithBoardSyn = xSemaphoreCreateCounting(1, 0);
 	
 	AHRS_Syn = xSemaphoreCreateCounting(1, 0);
+	
+	OutputMutex = xSemaphoreCreateMutex();
 	
 	/*********************************** Create queue ***********************************/
 	BCTxQueue = xQueueCreate(1, 1);

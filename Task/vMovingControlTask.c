@@ -101,7 +101,7 @@ void vMovingControlTask(void *pvParameters)
 						}
 						if(pdTRUE == xSemaphoreTake(FoundTargetSyn, 1))
 						{
-							printf("I am IN\r\n");
+							Debug_printf("I am IN\r\n");
 							TargetPos = CurPos;
 						}
 					}
@@ -189,7 +189,7 @@ void vMovingControlTask(void *pvParameters)
 						}
 						if(pdTRUE == xSemaphoreTake(FoundTargetSyn, 100))
 						{
-							printf("I am IN\r\n");
+							Debug_printf("I am IN\r\n");
 							TargetPos = CurPos;
 						}
 					}
@@ -245,7 +245,7 @@ void vMovingControlTask(void *pvParameters)
 						}
 						if(pdTRUE == xSemaphoreTake(FoundTargetSyn, 1))
 						{
-							printf("I am IN\r\n");
+							Debug_printf("I am IN\r\n");
 							TargetPos = CurPos;
 						}
 						//printf("return3\r\n");

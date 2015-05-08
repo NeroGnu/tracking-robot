@@ -15,11 +15,11 @@ void handleResNotNeg(int Result,Procedure toPro)
 		
 		if(GlobleCurProcedure.which_step != seenTarget)
 		{
-			printf("I see you\r\n");
+			Debug_printf("I see you\r\n");
 			
 			if (pdTRUE == xSemaphoreTake(MoveStopEnable, 10))
 			{
-				printf("needStop\r\n");
+				Debug_printf("needStop\r\n");
 				USART2->SR;
 				USART_SendData(UART4, '!');
 				xSemaphoreGive(MoveStopEnable);
@@ -44,20 +44,20 @@ void handleResNotNeg(int Result,Procedure toPro)
 	}
 	else
 	{
-		printf("I can't see\r\n");
+		Debug_printf("I can't see\r\n");
 		if (SeeTargetPosList[Result].x >= 0 || SeeTargetPosList[Result].y >= 0)
 		{
 			if(TargetPositionList[Result].x >= 0 || TargetPositionList[Result].y >= 0)
 			{
-				printf("update1\r\n");
+				Debug_printf("update1\r\n");
 //				tempRes = Result;
 				if(GlobleCurProcedure.which_step != seenTarget )
 				{
-					printf("I see you\r\n");
+					Debug_printf("I see you\r\n");
 					
 					if (pdTRUE == xSemaphoreTake(MoveStopEnable, 10))
 					{
-						printf("needStop\r\n");
+						Debug_printf("needStop\r\n");
 						USART2->SR;
 						USART_SendData(UART4, '!');
 						xSemaphoreGive(MoveStopEnable);
@@ -73,13 +73,13 @@ void handleResNotNeg(int Result,Procedure toPro)
 			}
 			else
 			{
-				printf("update0\r\n");
+				Debug_printf("update0\r\n");
 				if(GlobleCurProcedure.which_step != goToOtherTar && GlobleCurProcedure.which_step != seenTarget)
 				{
 					
 					if (pdTRUE == xSemaphoreTake(MoveStopEnable, 10))
 					{
-						printf("needStop\r\n");
+						Debug_printf("needStop\r\n");
 						USART2->SR;
 						USART_SendData(UART4, '!');
 						xSemaphoreGive(MoveStopEnable);
@@ -95,7 +95,7 @@ void handleResNotNeg(int Result,Procedure toPro)
 //				printf("SeeTargetPosList[%d]: %f %f %f\r\n",Result,SeeTargetPosList[Result].Angle,SeeTargetPosList[Result].x,SeeTargetPosList[Result].y);
 				while(GloblePathProcedure.which_step != goToOtherTar)
 				{
-					printf("die\r\n");
+					Debug_printf("die\r\n");
 					vTaskDelay(10);
 				}
 			}
@@ -128,7 +128,7 @@ void vDecisionTask(void *pvParameters)
 		if (pdTRUE == xSemaphoreTake(ComunicationWithBoardSyn, portMAX_DELAY))
 		{
 			Result = AssignResult[OrderIndex[SELFADDRESS]];
-			printf("Result: %d\r\n",Result);
+			Debug_printf("Result: %d\r\n",Result);
 //			printf("SelfTargetInformation[1]: %d\r\n",SelfTargetInformation[1]);
 			switch(preProcedure.which_step)
 			{

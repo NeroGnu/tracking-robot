@@ -499,11 +499,6 @@
               <FilePath>..\Task\vtime_Test_task.c</FilePath>
             </File>
             <File>
-              <FileName>InformationHubTask.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Task\InformationHubTask.c</FilePath>
-            </File>
-            <File>
               <FileName>vSeeTargetPosListMaintain.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Task\vSeeTargetPosListMaintain.c</FilePath>
@@ -512,6 +507,11 @@
               <FileName>vdecisionTask.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Task\vdecisionTask.c</FilePath>
+            </File>
+            <File>
+              <FileName>vGetYawTask.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Task\vGetYawTask.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -617,6 +617,11 @@
               <FileName>RFID_serial.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Drivers\src\RFID_serial.c</FilePath>
+            </File>
+            <File>
+              <FileName>AHRS.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\src\AHRS.c</FilePath>
             </File>
           </Files>
         </Group>
