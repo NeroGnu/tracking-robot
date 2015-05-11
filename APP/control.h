@@ -40,6 +40,9 @@
 
 #define ADJUST_STEP (3)                     //调整步长，当小数点部分积累误差超过ADJUST_STEP时进行调整。
 
+#define ADJUST_STEP_ANGLE (3)
+#define ADJUST_STEP_DIRECT (3)
+
 #define SAFEDISTANCE (20)             //安全距离，小车中线之间应保持距离。
 
 #define MaxDIS_PER_TIMES (100)
