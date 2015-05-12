@@ -144,6 +144,10 @@ extern Position TargetPositionList[TARGETNUM];
 extern TargetATPos SeeTargetPosList[TARGETNUM];
 extern char SelfConfluentEfficiency[TARGETNUM + 1];
 
+
+extern Position Cache1[TARGETNUM], Cache2[TARGETNUM];
+extern int Cache1Time, Cache2Time;
+
 #define SystemOut(fmt,args...) \
 xSemaphoreTake(OutputMutex,portMAX_DELAY);\
 printf(fmt,##args);\
