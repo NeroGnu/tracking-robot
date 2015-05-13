@@ -144,7 +144,7 @@ int main(void)
 	CC2500_InterruptEnable(FALSE);
 	
 	
-//	Delay_100us(10000);
+	Delay_100us(10000);
 //	NetworkConnecting();
 //	printf("Network OK!\r\n");
 

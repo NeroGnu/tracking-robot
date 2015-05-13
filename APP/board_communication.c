@@ -316,7 +316,17 @@ void ProcessVideoResult()
 		xSemaphoreGive(SelfXCoordinateSyn);
 } 
 
-void SerialTranslate()
+void SerialHex()
+{
+	int i;
+	Debug_printf("Data\r\n");
+	for (i = 0; i < BOARDRXLEN; i++)
+	{
+		Debug_printf("%d, ", BCRxBuffer[i]);
+	}
+}
+
+void SerialTranslate(void)
 {
 	int i;
 	FloatToChar temp;

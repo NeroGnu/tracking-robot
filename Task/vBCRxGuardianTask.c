@@ -11,6 +11,7 @@ void vBCRxGuardianTask(void *pvParameters)
 	{
 		if (pdTRUE == xSemaphoreTake(BCRxSyn, portMAX_DELAY))
 		{
+//			SerialHex();
 //			SerialTranslate();
 //			printf("get!");
 //		

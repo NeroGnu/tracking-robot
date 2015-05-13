@@ -19,4 +19,5 @@ void BoardCommunication_Config(void);
 int AccuracyTest(void);
 void ProcessVideoResult(void);
 void SerialTranslate(void);
+void SerialHex(void);
 #endif

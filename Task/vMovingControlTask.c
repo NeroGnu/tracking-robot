@@ -12,13 +12,15 @@ void vMovingControlTask(void *pvParameters)
 		if (pdTRUE == xQueueReceive(TargetPosQueue, &TargetPos, portMAX_DELAY))
 		{
 //			printf("get TargetPosQueue\r\n");
-			while ((fabs(TargetPos.Angle - CurPos.Angle) > 180 ? 360 - fabs(TargetPos.Angle - CurPos.Angle) : fabs(TargetPos.Angle - CurPos.Angle)) * STEP_ANGLE >= ADJUST_STEP || sqrt(pow(TargetPos.y - CurPos.y, 2) + pow(TargetPos.x - CurPos.x, 2)) * STEP_METER >= ADJUST_STEP)
+			while ((fabs(TargetPos.Angle - CurPos.Angle) > 180 ? 360 - fabs(TargetPos.Angle - CurPos.Angle) : fabs(TargetPos.Angle - CurPos.Angle)) * STEP_ANGLE >= ADJUST_STEP_ANGLE\
+				|| sqrt(pow(TargetPos.y - CurPos.y, 2) + pow(TargetPos.x - CurPos.x, 2)) * STEP_METER >= ADJUST_STEP_DIRECT)
 			{
-//				printf("CurPos: %f %f %f\r\n", CurPos.Angle, CurPos.x, CurPos.y);
-//				printf("Compass: %f\r\n", CurAngle);
-//				printf("DAngle: %f\r\n", fabs(TargetPos.Angle - CurPos.Angle) * STEP_ANGLE);
-//				printf("Distance: %f\r\n", sqrt(pow(TargetPos.y - CurPos.y, 2) + pow(TargetPos.x - CurPos.x, 2)) * STEP_METER);
-				if (sqrt(pow(TargetPos.y - CurPos.y, 2) + pow(TargetPos.x - CurPos.x, 2)) * STEP_METER >= ADJUST_STEP)
+//				Debug_printf("TargetPos: %f %f %f\r\n", CurPos.Angle, CurPos.x, CurPos.y);
+//				Debug_printf("CurPos: %f %f %f\r\n", CurPos.Angle, CurPos.x, CurPos.y);
+//				Debug_printf("Compass: %f\r\n", CurAngle);
+//				Debug_printf("DAngle: %f\r\n", fabs(TargetPos.Angle - CurPos.Angle) * STEP_ANGLE);
+//				Debug_printf("Distance: %f\r\n", sqrt(pow(TargetPos.y - CurPos.y, 2) + pow(TargetPos.x - CurPos.x, 2)) * STEP_METER);
+				if (sqrt(pow(TargetPos.y - CurPos.y, 2) + pow(TargetPos.x - CurPos.x, 2)) * STEP_METER >= ADJUST_STEP_DIRECT)
 				{
 					ExpectPos.Angle = (atan2(TargetPos.y - CurPos.y, TargetPos.x - CurPos.x)/PI)*180;
 					
@@ -101,7 +103,7 @@ void vMovingControlTask(void *pvParameters)
 						}
 						if(pdTRUE == xSemaphoreTake(FoundTargetSyn, 1))
 						{
-							Debug_printf("I am IN\r\n");
+//							Debug_printf("I am IN\r\n");
 							TargetPos = CurPos;
 						}
 					}
@@ -189,13 +191,14 @@ void vMovingControlTask(void *pvParameters)
 						}
 						if(pdTRUE == xSemaphoreTake(FoundTargetSyn, 100))
 						{
-							Debug_printf("I am IN\r\n");
+//							Debug_printf("I am IN\r\n");
 							TargetPos = CurPos;
 						}
 					}
 				}
 				
-				if ((fabs(ExpectPos.Angle - CurPos.Angle) > 180 ? 360 - fabs(ExpectPos.Angle - CurPos.Angle) : fabs(ExpectPos.Angle - CurPos.Angle)) * STEP_ANGLE < ADJUST_STEP && sqrt(pow(TargetPos.y - CurPos.y, 2) + pow(TargetPos.x - CurPos.x, 2)) * STEP_METER >= ADJUST_STEP)
+				if ((fabs(ExpectPos.Angle - CurPos.Angle) > 180 ? 360 - fabs(ExpectPos.Angle - CurPos.Angle) : fabs(ExpectPos.Angle - CurPos.Angle)) * STEP_ANGLE < ADJUST_STEP_ANGLE\
+					&& sqrt(pow(TargetPos.y - CurPos.y, 2) + pow(TargetPos.x - CurPos.x, 2)) * STEP_METER >= ADJUST_STEP_DIRECT)
 				{
 					ExpectPos.x = TargetPos.x;
 					ExpectPos.y = TargetPos.y;
@@ -203,12 +206,12 @@ void vMovingControlTask(void *pvParameters)
 					SendCmd.direct = forward;
 					SendCmd.step = DeltDistance * STEP_METER;
 //					vTaskDelay(1000);
-          //printf("return1\r\n");
+//          Debug_printf("return1\r\n");
 					xQueueSend(MoveCmdQueue, &SendCmd, portMAX_DELAY);
 					
 					if (pdTRUE == xQueueReceive(MoveRsultQueue, &ReResult, portMAX_DELAY))
 					{
-						//printf("return2\r\n");
+//						Debug_printf("return2\r\n");
 						//CurPos = ExpectPos;
 //						printf("get MoveRsultQueue\r\n");
 						CurPos.x = CurPos.x + (ReResult.step / STEP_METER) * arm_cos_f32((CurPos.Angle / 180) * PI);
@@ -245,17 +248,17 @@ void vMovingControlTask(void *pvParameters)
 						}
 						if(pdTRUE == xSemaphoreTake(FoundTargetSyn, 1))
 						{
-							Debug_printf("I am IN\r\n");
+//							Debug_printf("I am IN\r\n");
 							TargetPos = CurPos;
 						}
-						//printf("return3\r\n");
+//						Debug_printf("return3\r\n");
 					}
 				}
 				
 			}
-//			printf("TargetPos: %f %f %f\r\n", CurPos.Angle, CurPos.x, CurPos.y);
-//			printf("CurPos: %f %f %f\r\n", CurPos.Angle, CurPos.x, CurPos.y);
-//			printf("Compass: %f\r\n", CurAngle);
+//			Debug_printf("TargetPos: %f %f %f\r\n", CurPos.Angle, CurPos.x, CurPos.y);
+//			Debug_printf("CurPos: %f %f %f\r\n", CurPos.Angle, CurPos.x, CurPos.y);
+//			Debug_printf("Compass: %f\r\n", CurAngle);
 			xSemaphoreGive(MoveComplete);
 //			printf("Complete1\r\n");
 		}
