@@ -102,6 +102,9 @@ Position TargetPositionList[TARGETNUM];
 TargetATPos SeeTargetPosList[TARGETNUM];
 char SelfConfluentEfficiency[TARGETNUM + 1] = {SELFADDRESS, 0};
 
+Position Cache1[TARGETNUM], Cache2[TARGETNUM];
+int Cache1Time, Cache2Time;
+
 //extern vu32 second_Counter;
 //extern Position GoThroght[60];
 //******************************************************************************
@@ -148,7 +151,7 @@ int main(void)
 //	NetworkConnecting();
 //	printf("Network OK!\r\n");
 
-  BoardCommunication_Config();
+  VedioBoard_Com3Init();
 	
 	/*********************************** Create semaphore ***********************************/
 	BCRxSyn = xSemaphoreCreateCounting(1, 0);

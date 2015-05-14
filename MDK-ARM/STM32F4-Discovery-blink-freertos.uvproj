@@ -479,11 +479,6 @@
               <FilePath>..\Task\vPathPlanTask.c</FilePath>
             </File>
             <File>
-              <FileName>vCompassReadTask.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Task\vCompassReadTask.c</FilePath>
-            </File>
-            <File>
               <FileName>vTracelistMaintainTask.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Task\vTracelistMaintainTask.c</FilePath>
@@ -522,11 +517,6 @@
               <FileName>app.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\APP\app.h</FilePath>
-            </File>
-            <File>
-              <FileName>board_communication.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\APP\board_communication.c</FilePath>
             </File>
             <File>
               <FileName>control.c</FileName>
@@ -604,16 +594,6 @@
               <FilePath>..\Drivers\src\cc2500.c</FilePath>
             </File>
             <File>
-              <FileName>compass.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Drivers\src\compass.c</FilePath>
-            </File>
-            <File>
-              <FileName>i2c.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Drivers\src\i2c.c</FilePath>
-            </File>
-            <File>
               <FileName>RFID_serial.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Drivers\src\RFID_serial.c</FilePath>
@@ -622,6 +602,11 @@
               <FileName>AHRS.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Drivers\src\AHRS.c</FilePath>
+            </File>
+            <File>
+              <FileName>vedio_serial.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\src\vedio_serial.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -1,7 +1,6 @@
 #ifndef __APP_H
 #define __APP_H
 
-#include "board_communication.h"
 #include "control.h"
 #include "network.h"
 #include "position_update.h"
