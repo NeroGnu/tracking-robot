@@ -15,19 +15,19 @@ void vtime_Test_task(void *pvParameters)
 				TargetPos.Angle = rand()%360 - 180;
 				TargetPos.x = rand() % (WITHT+1);
 				TargetPos.y = rand() % (HEIGHT+1);
-				printf("TargetPos: %f %f %f\r\n",TargetPos.Angle,TargetPos.x,TargetPos.y);	
+				Debug_printf("TargetPos: %f %f %f\r\n",TargetPos.Angle,TargetPos.x,TargetPos.y);	
 				xQueueSend(TargetPosQueue, &TargetPos, portMAX_DELAY);
 				xSemaphoreTake(MoveComplete, portMAX_DELAY);
 			}
 			TargetPos.Angle = 90;
 			TargetPos.x = 0;
 			TargetPos.y = 0;
-			printf("TargetPos: %f %f %f\r\n",TargetPos.Angle,TargetPos.x,TargetPos.y);
+			Debug_printf("TargetPos: %f %f %f\r\n",TargetPos.Angle,TargetPos.x,TargetPos.y);
 
 			xQueueSend(TargetPosQueue, &TargetPos, portMAX_DELAY);
 			xSemaphoreTake(MoveComplete, portMAX_DELAY);
-			printf("times of changing angle: %d\r\n",count_change_angle);
-			printf("times of changing pos: %d\r\n",count_change_pos);
+			Debug_printf("times of changing angle: %d\r\n",count_change_angle);
+			Debug_printf("times of changing pos: %d\r\n",count_change_pos);
 		}
 	}
 }

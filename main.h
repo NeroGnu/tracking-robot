@@ -6,10 +6,10 @@
 #include "drivers.h"
 #include "app.h"
 #include "Public.h"
-//#include "Task.h"
 
 #define STACK_SIZE_MIN	128	/* usStackDepth	- the stack size DEFINED IN WORDS.*/
-
+#define TAKE_DATA_TIME 200
+#define T_TAKE_DATA_TIME (10*TAKE_DATA_TIME)
 
 /*********************Task List**************************/
 
@@ -43,6 +43,12 @@ void vIdleTask(void *pvParameters);
 void vDecisionTask(void *pvParameters);
 
 void vSeeTargetPosListMaintain(void *pvParameters);
+
+void vforecast_Test_task(void *pvParameters);
+void vGetYawTask(void *pvParameters);
+
+void vTraceForecastTask(void *pvParameters);
+void tTimerCallback( xTimerHandle pxTimer );
 
 /**********extern from main***************/
 /* Uart IO pool resource semaphore. */
@@ -79,9 +85,17 @@ extern xSemaphoreHandle MoveStopEnable;
 
 extern xSemaphoreHandle ComunicationWithBoardSyn;
 
-//****************************************************
+/* AHRS data synchronization*/
+extern xSemaphoreHandle AHRS_Syn;
+extern xSemaphoreHandle ComunicationWithTraceSyn;
+
 /*find the target*/
 extern xSemaphoreHandle FoundTargetSyn;
+
+/* System output semaphore */
+extern xSemaphoreHandle OutputMutex;
+
+//****************************************************
 
 /* Move command queue.*/
 extern xQueueHandle MoveCmdQueue;
@@ -116,7 +130,10 @@ extern xQueueHandle CC2500TxQueue;
 /* TargetATPos Queue. */
 extern xQueueHandle TargetATPosQueue;
 
+
 extern xQueueHandle TimeTestQueue;
+
+extern xSemaphoreHandle TimerxSyn;
 
 /***************variable******************/
 
@@ -134,5 +151,21 @@ extern Procedure GlobleCurProcedure;
 extern Position TargetPositionList[TARGETNUM];
 extern TargetATPos SeeTargetPosList[TARGETNUM];
 extern char SelfConfluentEfficiency[TARGETNUM + 1];
+
+
+extern Position Cache1[TARGETNUM], Cache2[TARGETNUM];
+extern int Cache1Time, Cache2Time;
+extern int Result,T_TIMER;
+
+
+
+extern int HaveData;
+extern Position SeenPos;
+extern xTimerHandle xTimers;
+
+#define SystemOut(fmt,args...) \
+xSemaphoreTake(OutputMutex,portMAX_DELAY);\
+printf(fmt,##args);\
+xSemaphoreGive(OutputMutex)
 
 #endif

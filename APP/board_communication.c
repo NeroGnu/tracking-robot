@@ -162,6 +162,9 @@ int AccuracyTest(void)
 }
 
 extern volatile float CurAngle;
+
+Position Cache1[TARGETNUM] = {0}, Cache2[TARGETNUM] = {0};
+int Cache1Time = 0, Cache2Time = 0;
 void ProcessVideoResult()
 {
 	char *pBuffer = NULL;
@@ -211,6 +214,8 @@ void ProcessVideoResult()
 	
 	//printf("1\r\n");
 	//printf("SelfTargetInformation: ");
+	Cache1Time = Cache2Time;
+	Cache2Time = receivetime;
 	for (i = 0; i < TARGETNUM; i++)
 	{
 //		printf("SelfTargetInformation[%d]:%d \r\n",i,SelfTargetInformation[i + 1]);
@@ -219,6 +224,7 @@ void ProcessVideoResult()
 		SelfXDistance[i].c[1] = pfloat[RE_TARGETNUM + i].c[1];
 		SelfXDistance[i].c[2] = pfloat[RE_TARGETNUM + i].c[2];
 		SelfXDistance[i].c[3] = pfloat[RE_TARGETNUM + i].c[3];
+		Cache1[i] = Cache2[i];
 		if (0 < (signed char)BCRxBuffer[i] || SelfXDistance[i].f > 0.001)
 		{
 			//printf("2\r\n");
@@ -229,6 +235,7 @@ void ProcessVideoResult()
 			deltay = SelfXDistance[i].f * arm_sin_f32((TargetPositionList[i].Angle / 180) * PI);
 			TargetPositionList[i].x = CurPos.x + deltax;
 			TargetPositionList[i].y = CurPos.y + deltay;
+			Cache2[i] = TargetPositionList[i];
 			//printf("2\r\n");
 			buffer[0] = i;
 			//printf("2\r\n");
@@ -309,7 +316,17 @@ void ProcessVideoResult()
 		xSemaphoreGive(SelfXCoordinateSyn);
 } 
 
-void SerialTranslate()
+void SerialHex()
+{
+	int i;
+	Debug_printf("Data\r\n");
+	for (i = 0; i < BOARDRXLEN; i++)
+	{
+		Debug_printf("%d, ", BCRxBuffer[i]);
+	}
+}
+
+void SerialTranslate(void)
 {
 	int i;
 	FloatToChar temp;

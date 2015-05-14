@@ -1,5 +1,6 @@
 //******************************************************************************
 #include "main.h"
+
 //******************************************************************************
 
 
@@ -28,6 +29,7 @@ xSemaphoreHandle TagSyn;
 
 xSemaphoreHandle ComunicationWithBoardSyn;
 
+xSemaphoreHandle ComunicationWithTraceSyn;
 
 xSemaphoreHandle CorrectAngleSyn;
 
@@ -40,9 +42,21 @@ xSemaphoreHandle ForwardStopEnable;
 /* Move stop enable */
 xSemaphoreHandle MoveStopEnable;
 
-//****************************************************
+
+/*if the timer's callback function is called ,than give the Semaphore*/
+xSemaphoreHandle TimerxSyn;
+
+/* AHRS data synchronization */
+xSemaphoreHandle AHRS_Syn;
+
 /*find the target*/
 xSemaphoreHandle FoundTargetSyn;
+
+/* System output semaphore */
+xSemaphoreHandle OutputMutex;
+
+//****************************************************
+
 
 /* Move command queue.*/
 xQueueHandle MoveCmdQueue;
@@ -78,6 +92,9 @@ xQueueHandle CC2500TxQueue;
 xQueueHandle TargetATPosQueue;
 
 xQueueHandle TimeTestQueue;
+
+/*timer*/
+xTimerHandle xTimers;
 
 //******************************************************************************
 char SelfTargetInformation[TARGETINFORMATIONLENGTH] = {SELFADDRESS, 0};
@@ -121,17 +138,21 @@ int main(void)
 	
 	Timer2Init();
 	Com2Init();
+	printf("Init OK!\r\n");
 	Com4Init();
+	AHRS_Com5Init();
 	Com6Init();
+	
 	RNG_Init();
-	Delay_100us(650);
-	COMP_Init();
-	COMP_PreRead();
+//	Delay_100us(650);
+//	COMP_Init();
+//	COMP_PreRead();
+
 	CC2500_Init();
 	SelfSend();
 	CC2500_InterruptEnable(FALSE);
 	
-	printf("Init OK!\r\n");
+	
 	Delay_100us(10000);
 //	NetworkConnecting();
 //	printf("Network OK!\r\n");
@@ -158,7 +179,7 @@ int main(void)
 	SendPacketPoolFull = xSemaphoreCreateCounting(SENDPACKETBUFFERNUM - 1, 0);
 	SendPacketPoolCounterMutex = xSemaphoreCreateMutex();
 
-    TargetInformationEmpty = xSemaphoreCreateCounting(TARGETINFORMATIONQUEUE - 1, TARGETINFORMATIONQUEUE - 1);
+  TargetInformationEmpty = xSemaphoreCreateCounting(TARGETINFORMATIONQUEUE - 1, TARGETINFORMATIONQUEUE - 1);
 	TargetInformationFull = xSemaphoreCreateCounting(TARGETINFORMATIONQUEUE - 1, 0);
 	TargetInformationCounterMutex = xSemaphoreCreateMutex();
 	
@@ -176,6 +197,12 @@ int main(void)
 	FoundTargetSyn = xSemaphoreCreateCounting(1, 0);
 	
 	ComunicationWithBoardSyn = xSemaphoreCreateCounting(1, 0);
+	
+	ComunicationWithTraceSyn = xSemaphoreCreateCounting(1, 0);
+	AHRS_Syn = xSemaphoreCreateCounting(1, 0);
+	
+	OutputMutex = xSemaphoreCreateMutex();
+	TimerxSyn = xSemaphoreCreateCounting(1, 0);
 	/*********************************** Create queue ***********************************/
 	BCTxQueue = xQueueCreate(1, 1);
 	
@@ -201,6 +228,10 @@ int main(void)
 	
 	TimeTestQueue = xQueueCreate(1, sizeof (int));
 	
+	
+	
+	
+
 	/*********************************** Create task ***********************************/
 	
   xTaskCreate( vNetworkRxGuardianTask, (const signed char*)"vNetworkRxGuardianTask",
@@ -229,8 +260,8 @@ int main(void)
 			300, NULL, 2, NULL );
 	xTaskCreate( vPathPlanTask, (const signed char*)"vPathPlanTask", 
 			1024, NULL, 1, NULL );
-	xTaskCreate( vCompassReadTask, (const signed char*)"vCompassReadTask", 
-			128, NULL, 3, NULL );
+//	xTaskCreate( vCompassReadTask, (const signed char*)"vCompassReadTask", 
+//			128, NULL, 3, NULL );
 	xTaskCreate( vTracelistMaintainTask, (const signed char*)"vTracelistMaintainTask", 
 			128, NULL, 2, NULL );		
 //	xTaskCreate( vtime_Test_task, (const signed char*)"vtime_Test_task", 
@@ -240,6 +271,11 @@ int main(void)
 			256, NULL, 2, NULL );
 	xTaskCreate( vSeeTargetPosListMaintain, (const signed char*)"vSeeTargetPosListMaintain", 
 			256, NULL, 2, NULL );
+	xTaskCreate( vGetYawTask, (const signed char*)"vGetYawTask", 
+			128, NULL, 4, NULL );		
+			
+	xTaskCreate( vTraceForecastTask, (const signed char*)"vTraceForecastTask", 
+			4096, NULL, 2, NULL );
 		printf("Start!\r\n");
 	
 	vTaskStartScheduler();
@@ -271,6 +307,9 @@ void setTime(int minutes)
 	second_Counter = 0;
 	xQueueSend(TimeTestQueue, &time, portMAX_DELAY);
 }
+
+
+
 
 QSH_FUN_REG (setTime, "void setTime(int minutes)");
 QSH_FUN_REG (go, "void go(int Angle, int x, int y))");

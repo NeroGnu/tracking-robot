@@ -324,4 +324,20 @@ void DMA1_Stream2_IRQHandler(void)
   }
 }
 
+void DMA1_Stream0_IRQHandler(void)
+{
+	if(DMA_GetITStatus(DMA1_Stream0, DMA_IT_TCIF0))
+  {
+    /* Clear DMA Stream Transfer Complete interrupt pending bit */
+    DMA_ClearITPendingBit(DMA1_Stream0, DMA_IT_TCIF0);  
+    DMA_ClearFlag(DMA1_Stream0, DMA_FLAG_TCIF0);
+		USART_ClearFlag(UART5, USART_FLAG_TC);
+//		printf("in\r\n");
+    xSemaphoreGiveFromISR(AHRS_Syn, NULL);
+		
+		DMA_Cmd(DMA1_Stream0,ENABLE);
+		USART_DMACmd(UART5, USART_DMAReq_Rx, ENABLE);
+  }
+}
+
 /******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

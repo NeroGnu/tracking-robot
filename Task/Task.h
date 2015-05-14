@@ -29,4 +29,6 @@ void vtime_Test_task(void *pvParameters);
 void vCycleRecoTask(void *pvParameters);
 
 void vIdleTask(void *pvParameters);
+
+void vTraceForecastTask(void *pvParameters);
 #endif

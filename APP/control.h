@@ -2,41 +2,46 @@
 #define __CONTROL_H__
 
 
+#define DEBUG
 
-#define No1 
-//#define SELFID  (0x03)
+#define No5 
+
+//#define ENABLE_PATROL
 
 #ifdef No1
-#define STEP_ANGLE (2.84444444444444)  //转角比例
-#define STEP_METER (2017.593244194229/100)           //距离比例,当前一个单位长度为10cm
-#define SELFADDRESS  0x01    //0x01~0xFE
+	#define STEP_ANGLE (2.84444444444444)  //转角比例
+	#define STEP_METER (2017.593244194229/100)           //距离比例,当前一个单位长度为10cm
+	#define SELFADDRESS  0x01    //0x01~0xFE
 #endif
 
 #ifdef No2
-#define STEP_ANGLE (2.73611111111111)  //转角比例
-#define STEP_METER (2017.593244194229/100)           //距离比例,当前一个单位长度为10cm
-#define SELFADDRESS  0x02    //0x01~0xFE
+	#define STEP_ANGLE (2.73611111111111)  //转角比例
+	#define STEP_METER (2017.593244194229/100)           //距离比例,当前一个单位长度为10cm
+	#define SELFADDRESS  0x02    //0x01~0xFE
 #endif
 
 #ifdef No3
-#define STEP_ANGLE (2.74444444444444)  //转角比例
-#define STEP_METER (2017.593244194229/100)           //距离比例,当前一个单位长度为10cm
-#define SELFADDRESS  0x03    //0x01~0xFE
+	#define STEP_ANGLE (2.74444444444444)  //转角比例
+	#define STEP_METER (2017.593244194229/100)           //距离比例,当前一个单位长度为10cm
+	#define SELFADDRESS  0x03    //0x01~0xFE
 #endif
 
 #ifdef No4
-#define STEP_ANGLE (2.6059405940594)  //转角比例
-#define STEP_METER (2017.593244194229/100)           //距离比例,当前一个单位长度为10cm
-#define SELFADDRESS  0x04    //0x01~0xFE.
+	#define STEP_ANGLE (2.6059405940594)  //转角比例
+	#define STEP_METER (2017.593244194229/100)           //距离比例,当前一个单位长度为10cm
+	#define SELFADDRESS  0x04    //0x01~0xFE.
 #endif
 
 #ifdef No5
-#define STEP_ANGLE (2.726643599)  //转角比例
-#define STEP_METER (2017.593244194229/100)           //距离比例,当前一个单位长度为10cm
-#define SELFADDRESS  0x05    //0x01~0xFE
+	#define STEP_ANGLE (2.726643599)  //转角比例
+	#define STEP_METER (2017.593244194229/100)           //距离比例,当前一个单位长度为10cm
+	#define SELFADDRESS  0x05    //0x01~0xFE
 #endif
 
-#define ADJUST_STEP (3)                     //调整步长，当小数点部分积累误差超过ADJUST_STEP时进行调整。
+//#define ADJUST_STEP (3)                     //调整步长，当小数点部分积累误差超过ADJUST_STEP时进行调整。
+
+#define ADJUST_STEP_ANGLE (3)
+#define ADJUST_STEP_DIRECT (10)
 
 #define SAFEDISTANCE (20)             //安全距离，小车中线之间应保持距离。
 
@@ -57,8 +62,6 @@
 #define MIN_LEFT_DOWN_Y -30
 #define MAX_RIGHT_X 330
 #define MAX_RIGHT_Y  330
-
-//#define PI 3.14159265358979f 
 
 typedef enum
 {
@@ -123,6 +126,14 @@ typedef struct
 	Steps  which_step;
 	Para   pvParameter;
 }Procedure;
+
+
+#ifdef DEBUG
+	#define Debug_printf SystemOut
+#else
+	#define Debug_printf none_printf
+#endif
+
 ///////////////////////////////////////////////////
 extern Position CurPos;
 //extern Position TargetPos;
@@ -143,5 +154,7 @@ Position OneNextPos(int sweep,int dir,Position PrePos);
 Position getNextPos(Position tmpPos);
 int ifCollision(float x1, float y1, float x2, float y2);
 int IsOutSide(Position pos);
+void none_printf(char *fmt, ...);
 
 #endif
+
