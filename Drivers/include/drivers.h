@@ -3,9 +3,8 @@
 
 #include "arduino_serial.h"
 #include "cc2500.h"
-#include "compass.h"
-#include "i2c.h"
 #include "RFID_serial.h"
 #include "AHRS.h"
+#include "vedio_serial.h"
 
 #endif
