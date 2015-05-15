@@ -7,5 +7,9 @@
 #include "Q_Shell.h"
 #include "shell.h"
 #include "target_assign.h"
+#include "array.h"
+
+#include "ployfit.h"
+#include "statPredict.h"
 
 #endif

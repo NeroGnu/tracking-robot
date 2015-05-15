@@ -608,6 +608,11 @@
               <FileType>1</FileType>
               <FilePath>..\Drivers\src\vedio_serial.c</FilePath>
             </File>
+            <File>
+              <FileName>AHRS.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\src\AHRS.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

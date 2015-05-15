@@ -8,7 +8,8 @@
 #include "Public.h"
 
 #define STACK_SIZE_MIN	128	/* usStackDepth	- the stack size DEFINED IN WORDS.*/
-
+#define TAKE_DATA_TIME 200
+#define T_TAKE_DATA_TIME (10*TAKE_DATA_TIME)
 
 /*********************Task List**************************/
 
@@ -43,7 +44,11 @@ void vDecisionTask(void *pvParameters);
 
 void vSeeTargetPosListMaintain(void *pvParameters);
 
+void vforecast_Test_task(void *pvParameters);
 void vGetYawTask(void *pvParameters);
+
+void vTraceForecastTask(void *pvParameters);
+void tTimerCallback( xTimerHandle pxTimer );
 
 /**********extern from main***************/
 /* Uart IO pool resource semaphore. */
@@ -82,6 +87,7 @@ extern xSemaphoreHandle ComunicationWithBoardSyn;
 
 /* AHRS data synchronization*/
 extern xSemaphoreHandle AHRS_Syn;
+extern xSemaphoreHandle ComunicationWithTraceSyn;
 
 /*find the target*/
 extern xSemaphoreHandle FoundTargetSyn;
@@ -127,6 +133,8 @@ extern xQueueHandle TargetATPosQueue;
 
 extern xQueueHandle TimeTestQueue;
 
+extern xSemaphoreHandle TimerxSyn;
+
 /***************variable******************/
 
 extern char SelfTargetInformation[TARGETINFORMATIONLENGTH];
@@ -147,6 +155,13 @@ extern char SelfConfluentEfficiency[TARGETNUM + 1];
 
 extern Position Cache1[TARGETNUM], Cache2[TARGETNUM];
 extern int Cache1Time, Cache2Time;
+extern int Result,T_TIMER;
+
+
+
+extern int HaveData;
+extern Position SeenPos;
+extern xTimerHandle xTimers;
 
 #define SystemOut(fmt,args...) \
 xSemaphoreTake(OutputMutex,portMAX_DELAY);\

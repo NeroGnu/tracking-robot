@@ -28,6 +28,7 @@ xSemaphoreHandle TagSyn;
 
 xSemaphoreHandle ComunicationWithBoardSyn;
 
+xSemaphoreHandle ComunicationWithTraceSyn;
 
 xSemaphoreHandle CorrectAngleSyn;
 
@@ -39,6 +40,10 @@ xSemaphoreHandle ForwardStopEnable;
 
 /* Move stop enable */
 xSemaphoreHandle MoveStopEnable;
+
+
+/*if the timer's callback function is called ,than give the Semaphore*/
+xSemaphoreHandle TimerxSyn;
 
 /* AHRS data synchronization */
 xSemaphoreHandle AHRS_Syn;
@@ -86,6 +91,9 @@ xQueueHandle CC2500TxQueue;
 xQueueHandle TargetATPosQueue;
 
 xQueueHandle TimeTestQueue;
+
+/*timer*/
+xTimerHandle xTimers;
 
 //******************************************************************************
 char SelfTargetInformation[TARGETINFORMATIONLENGTH] = {SELFADDRESS, 0};
@@ -192,10 +200,11 @@ int main(void)
 	
 	ComunicationWithBoardSyn = xSemaphoreCreateCounting(1, 0);
 	
+	ComunicationWithTraceSyn = xSemaphoreCreateCounting(1, 0);
 	AHRS_Syn = xSemaphoreCreateCounting(1, 0);
 	
 	OutputMutex = xSemaphoreCreateMutex();
-	
+	TimerxSyn = xSemaphoreCreateCounting(1, 0);
 	/*********************************** Create queue ***********************************/
 	BCTxQueue = xQueueCreate(1, 1);
 	
@@ -221,6 +230,10 @@ int main(void)
 	
 	TimeTestQueue = xQueueCreate(1, sizeof (int));
 	
+	
+	
+	
+
 	/*********************************** Create task ***********************************/
 	
   xTaskCreate( vNetworkRxGuardianTask, (const signed char*)"vNetworkRxGuardianTask",
@@ -263,6 +276,8 @@ int main(void)
 	xTaskCreate( vGetYawTask, (const signed char*)"vGetYawTask", 
 			128, NULL, 4, NULL );		
 			
+	xTaskCreate( vTraceForecastTask, (const signed char*)"vTraceForecastTask", 
+			4096, NULL, 2, NULL );
 		printf("Start!\r\n");
 	
 	vTaskStartScheduler();
@@ -294,6 +309,9 @@ void setTime(int minutes)
 	second_Counter = 0;
 	xQueueSend(TimeTestQueue, &time, portMAX_DELAY);
 }
+
+
+
 
 QSH_FUN_REG (setTime, "void setTime(int minutes)");
 QSH_FUN_REG (go, "void go(int Angle, int x, int y))");
