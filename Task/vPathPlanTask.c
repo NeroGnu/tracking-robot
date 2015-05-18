@@ -178,9 +178,9 @@ void vPathPlanTask(void *pvParameters)
 //		Debug_printf("Curpos: %f %f %f\r\n",CurPos.Angle,CurPos.x,CurPos.y);
 //		Debug_printf("Tarpos: %f %f %f\r\n",TargetPos.Angle,TargetPos.x,TargetPos.y);
 //	  Debug_printf("CC2500TxQueue over\r\n");
-//		xQueueSend(TargetPosQueue, &TargetPos, portMAX_DELAY);
+		xQueueSend(TargetPosQueue, &TargetPos, portMAX_DELAY);
 ////		Debug_printf("TargetPosQueue over\r\n");
-//		xSemaphoreTake(MoveComplete, portMAX_DELAY);
+		xSemaphoreTake(MoveComplete, portMAX_DELAY);
 //		Debug_printf("MoveComplete over\r\n");
 //		vTaskDelay(100);
 		

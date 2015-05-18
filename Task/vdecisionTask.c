@@ -125,14 +125,16 @@ void vDecisionTask(void *pvParameters)
 	pre_pro.which_step = patrol;
 	while(1)
 	{
-		if (pdTRUE == xSemaphoreTake(ComunicationWithBoardSyn, portMAX_DELAY))
+		if (pdTRUE == xSemaphoreTake(ComunicationWithTraceSyn, portMAX_DELAY))
 		{
 //			Result = AssignResult[OrderIndex[SELFADDRESS]];
 //			Debug_printf("Result: %d\r\n",Result);
 //			printf("SelfTargetInformation[1]: %d\r\n",SelfTargetInformation[1]);
+//			Debug_printf("vDecisionTask\r\n");
 			switch(preProcedure.which_step)
 			{
 				case seenTarget: 
+					Debug_printf("vDecisionTask seenTarget\r\n");
 					if(-1 == Result)
 					{
 						countLoosTimes++;
@@ -144,7 +146,7 @@ void vDecisionTask(void *pvParameters)
 						else
 						{
 							GlobleCurProcedure.which_step = seenTarget;
-							GlobleCurProcedure.pvParameter.pos = alreadySeenPos;
+							GlobleCurProcedure.pvParameter.pos = SeenPos;
 						}
 						
 						
@@ -192,6 +194,7 @@ void vDecisionTask(void *pvParameters)
 					}
 					break;
 				case looseTarget:
+					Debug_printf("vDecisionTask looseTarget\r\n");
 					if(-1 == Result )
 					{
 						if(isFindOver == 1)
@@ -251,6 +254,7 @@ void vDecisionTask(void *pvParameters)
 					}
 					break;
 				case patrol:
+					Debug_printf("vDecisionTask patrol\r\n");
 					if(-1 == Result)
 					{
 						//printf("i am in res = -1\r\n");
@@ -298,6 +302,7 @@ void vDecisionTask(void *pvParameters)
 					}
 					break;
 				case goToOtherTar:
+					Debug_printf("vDecisionTask goToOtherTar\r\n");
 					if(-1 == Result)
 					{
 						countLoosTimes++;

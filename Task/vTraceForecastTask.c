@@ -13,13 +13,14 @@
 //Position t = {40.0,50.0,60.0};
 
 int HaveData = 0;
+Position SeenPos;
 void vTraceForecastTask(void *pvParameters) 
 {
 
 
 	int totol_num = 0;
 	int MyHaveData = 0;
-	Position SeenPos;
+	
 	time_pos Observ;
 
 	Pred out_predict[FORECAST_LEN];
@@ -39,32 +40,35 @@ void vTraceForecastTask(void *pvParameters)
 		
 		
 		/*Determine whether there is data passed down*/
-
-		if(Cache1[Result].x >= (float)(0.03) ||  Cache1[Result].y >= (float)(0.03) || Cache2[Result].x >= (float)(0.03) ||  Cache2[Result].y >= (float)(0.03))
+		if(Result >= 0)
 		{
-			MyHaveData = 1;
-			Debug_printf("have data\r\n");
-			if(abs(T_TIMER - Cache1Time) > abs(T_TIMER - Cache2Time))
+			if(Cache1[Result].x >= (float)(0.03) ||  Cache1[Result].y >= (float)(0.03) || Cache2[Result].x >= (float)(0.03) ||  Cache2[Result].y >= (float)(0.03))
 			{
-				Observ.x = Cache2[Result].x;
-				Observ.y = Cache2[Result].y;
-				Observ.angle = Cache2[Result].Angle;
-				Observ.time = Cache2Time;
+				MyHaveData = 1;
+				Debug_printf("have data\r\n");
+				if(abs(T_TIMER - Cache1Time) > abs(T_TIMER - Cache2Time))
+				{
+					Observ.x = Cache2[Result].x;
+					Observ.y = Cache2[Result].y;
+					Observ.angle = Cache2[Result].Angle;
+					Observ.time = Cache2Time;
+				}
+				else
+				{
+					Observ.x = Cache1[Result].x;
+					Observ.y = Cache1[Result].y;
+					Observ.angle = Cache1[Result].Angle;
+					Observ.time = Cache1Time;
+				}
 			}
 			else
 			{
-				Observ.x = Cache1[Result].x;
-				Observ.y = Cache1[Result].y;
-				Observ.angle = Cache1[Result].Angle;
-				Observ.time = Cache1Time;
+				MyHaveData = 0;
+				Debug_printf("no data\r\n");
 			}
 		}
 		else
-		{
 			MyHaveData = 0;
-			Debug_printf("no data\r\n");
-		}
-		
 		
 
 		/*Do part of the decision*/
@@ -73,6 +77,7 @@ void vTraceForecastTask(void *pvParameters)
 			Debug_printf("0 0\r\n");
 			HaveData = 0;
 			totol_num = 0;
+			GloblePathProcedure.which_step =  patrol;
 		}
 		else if(MyHaveData == 1 && preFlag == 0)//上面传过来数据，但还没进入滤波
 		{
@@ -80,7 +85,7 @@ void vTraceForecastTask(void *pvParameters)
 			SeenPos.Angle = Observ.angle;
 			SeenPos.x = Observ.x;
 			SeenPos.y = Observ.y;
-			printf("SeenPos: %f %f %f\r\n",SeenPos.Angle,SeenPos.x,SeenPos.y);
+			Debug_printf("SeenPos: %f %f %f\r\n",SeenPos.Angle,SeenPos.x,SeenPos.y);
 			Debug_printf("1 0\r\n");
 			if(GlobleCurProcedure.which_step != seenTarget)
 			{
@@ -103,9 +108,11 @@ void vTraceForecastTask(void *pvParameters)
 			}
 			GlobleCurProcedure.which_step = seenTarget;
 			GlobleCurProcedure.pvParameter.pos = SeenPos;
-			
+			Debug_printf("GlobleCurProcedure: %f %f %f\r\n",GlobleCurProcedure.pvParameter.pos.Angle,GlobleCurProcedure.pvParameter.pos.x,GlobleCurProcedure.pvParameter.pos.y);
 			
 			totol_num = 0;
+			State_prediction(&Observ,out_predict,&flag);
+			preFlag = flag;
 		}
 		else if(MyHaveData == 0 && preFlag == 1)   //上面没有数据来，但已经进入kalman滤波
 		{
@@ -145,14 +152,18 @@ void vTraceForecastTask(void *pvParameters)
 			totol_num++;
 			if(totol_num >= FORECAST_LEN)
 			{
+				Debug_printf("reset\r\n");
 				HaveData = 0;
+				preFlag = 0;
 				totol_num = 0;
 				GlobleCurProcedure.which_step = looseTarget;
 				
 			}
-			
-			State_prediction(&Observ,out_predict,&flag);
-			preFlag = flag;
+			else
+			{
+				State_prediction(&Observ,out_predict,&flag);
+				preFlag = flag;
+			}
 		}
 		else																				//上面有数据来，已经进入kalman滤波
 		{

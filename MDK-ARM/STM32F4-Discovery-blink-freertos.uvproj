@@ -508,6 +508,21 @@
               <FileType>1</FileType>
               <FilePath>..\Task\vGetYawTask.c</FilePath>
             </File>
+            <File>
+              <FileName>tTimerCallback.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Task\tTimerCallback.c</FilePath>
+            </File>
+            <File>
+              <FileName>vCycleRecoTask.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Task\vCycleRecoTask.c</FilePath>
+            </File>
+            <File>
+              <FileName>vTraceForecastTask.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Task\vTraceForecastTask.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -552,6 +567,46 @@
               <FileName>target_assign.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\APP\target_assign.c</FilePath>
+            </File>
+            <File>
+              <FileName>array.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\APP\array.c</FilePath>
+            </File>
+            <File>
+              <FileName>confirm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\APP\confirm.c</FilePath>
+            </File>
+            <File>
+              <FileName>forecast.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\APP\forecast.c</FilePath>
+            </File>
+            <File>
+              <FileName>Jugemotor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\APP\Jugemotor.c</FilePath>
+            </File>
+            <File>
+              <FileName>kalman.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\APP\kalman.c</FilePath>
+            </File>
+            <File>
+              <FileName>ployfit.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\APP\ployfit.c</FilePath>
+            </File>
+            <File>
+              <FileName>statPredict.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\APP\statPredict.c</FilePath>
+            </File>
+            <File>
+              <FileName>updatespace.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\APP\updatespace.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -607,11 +662,6 @@
               <FileName>vedio_serial.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Drivers\src\vedio_serial.c</FilePath>
-            </File>
-            <File>
-              <FileName>AHRS.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Drivers\src\AHRS.c</FilePath>
             </File>
           </Files>
         </Group>
