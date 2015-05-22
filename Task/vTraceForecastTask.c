@@ -13,6 +13,7 @@
 //Position t = {40.0,50.0,60.0};
 
 int HaveData = 0;
+float SelfXDistance_f;
 Position SeenPos;
 void vTraceForecastTask(void *pvParameters) 
 {
@@ -38,14 +39,17 @@ void vTraceForecastTask(void *pvParameters)
 		Result = AssignResult[OrderIndex[SELFADDRESS]];
 //		Debug_printf("Result: %d\r\n",Result);
 		
-		
+		SelfXDistance_f = SelfXDistance[Result].f;
 		/*Determine whether there is data passed down*/
 		if(Result >= 0)
 		{
-			
-			Observ.angle = CurPos.Angle + (float) computeAngle(SelfXDistance[Result].f , 240 - SelfXCoordinate[Result].f);
-			Observ.x = CurPos.x + SelfXDistance[Result].f * arm_cos_f32((TargetPositionList[Result].Angle / 180) * PI);
-			Observ.y = CurPos.y + SelfXDistance[Result].f * arm_sin_f32((TargetPositionList[Result].Angle / 180) * PI);
+			MyHaveData = 1;
+//			Observ.angle = CurPos.Angle + (float) computeAngle(SelfXDistance[Result].f , 240 - SelfXCoordinate[Result].f);
+//			Observ.x = CurPos.x + SelfXDistance[Result].f * arm_cos_f32((TargetPositionList[Result].Angle / 180) * PI);
+//			Observ.y = CurPos.y + SelfXDistance[Result].f * arm_sin_f32((TargetPositionList[Result].Angle / 180) * PI);
+			Observ.angle = TargetPositionList[Result].Angle;
+			Observ.x = TargetPositionList[Result].x;
+			Observ.y = TargetPositionList[Result].y;
 			if(abs(T_TIMER - Cache1Time) > abs(T_TIMER - Cache2Time))
 			{
 				Observ.time = Cache2Time;
@@ -119,6 +123,15 @@ void vTraceForecastTask(void *pvParameters)
 				
 	//			vTaskDelay(100);
 			}
+//			SeenPos.Angle = CurPos.Angle + (float) computeAngle(SelfXDistance[Result].f , 240 - SelfXCoordinate[Result].f);
+//			SeenPos.x = CurPos.x + SelfXDistance_f * arm_cos_f32((TargetPositionList[Result].Angle / 180) * PI);
+//			SeenPos.y = CurPos.y + SelfXDistance_f * arm_sin_f32((TargetPositionList[Result].Angle / 180) * PI);
+
+				SeenPos.Angle = Observ.angle;
+				SeenPos.x = Observ.x;
+				SeenPos.y = Observ.y;
+
+
 			GlobleCurProcedure.which_step = seenTarget;
 			GlobleCurProcedure.pvParameter.pos = SeenPos;
 			Debug_printf("GlobleCurProcedure: %f %f %f\r\n",GlobleCurProcedure.pvParameter.pos.Angle,GlobleCurProcedure.pvParameter.pos.x,GlobleCurProcedure.pvParameter.pos.y);
@@ -159,6 +172,12 @@ void vTraceForecastTask(void *pvParameters)
 				}
 	//			vTaskDelay(100);
 			}
+//			SeenPos.Angle = CurPos.Angle + (float) computeAngle(SelfXDistance[Result].f , 240 - SelfXCoordinate[Result].f);
+//			SeenPos.x = CurPos.x + SelfXDistance_f * arm_cos_f32((TargetPositionList[Result].Angle / 180) * PI);
+//			SeenPos.y = CurPos.y + SelfXDistance_f * arm_sin_f32((TargetPositionList[Result].Angle / 180) * PI);
+				SeenPos.Angle = Observ.angle;
+				SeenPos.x = Observ.x;
+				SeenPos.y = Observ.y;
 			GlobleCurProcedure.which_step = seenTarget;
 			GlobleCurProcedure.pvParameter.pos = SeenPos;
 			
@@ -205,6 +224,12 @@ void vTraceForecastTask(void *pvParameters)
 
 	//			vTaskDelay(100);
 			}
+//			SeenPos.Angle = CurPos.Angle + (float) computeAngle(SelfXDistance[Result].f , 240 - SelfXCoordinate[Result].f);
+//			SeenPos.x = CurPos.x + SelfXDistance_f * arm_cos_f32((TargetPositionList[Result].Angle / 180) * PI);
+//			SeenPos.y = CurPos.y + SelfXDistance_f * arm_sin_f32((TargetPositionList[Result].Angle / 180) * PI);
+			SeenPos.Angle = Observ.angle;
+				SeenPos.x = Observ.x;
+				SeenPos.y = Observ.y;
 			GlobleCurProcedure.which_step = seenTarget;
 				GlobleCurProcedure.pvParameter.pos = SeenPos;
 			

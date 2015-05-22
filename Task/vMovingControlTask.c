@@ -51,7 +51,7 @@ void vMovingControlTask(void *pvParameters)
 					xQueueSend(MoveCmdQueue, &SendCmd, portMAX_DELAY);
 					if (pdTRUE == xQueueReceive(MoveRsultQueue, &ReResult, portMAX_DELAY))
 					{
-//						printf("get MoveRsultQueue\r\n");
+						Debug_printf("get MoveRsultQueue\r\n");
 						//CurPos = ExpectPos;
 						if (SendCmd.direct == turnright)
 						{
@@ -140,7 +140,7 @@ void vMovingControlTask(void *pvParameters)
 					if (pdTRUE == xQueueReceive(MoveRsultQueue, &ReResult, portMAX_DELAY))
 					{
 						//CurPos = ExpectPos;MoveRsultQueue
-//						printf("get MoveRsultQueue\r\n");
+						Debug_printf("get MoveRsultQueue\r\n");
 						if (SendCmd.direct == turnright)
 						{
 							CurPos.Angle = CurPos.Angle - ((float)ReResult.step) / STEP_ANGLE;
@@ -213,7 +213,7 @@ void vMovingControlTask(void *pvParameters)
 					{
 //						Debug_printf("return2\r\n");
 						//CurPos = ExpectPos;
-//						printf("get MoveRsultQueue\r\n");
+						Debug_printf("get MoveRsultQueue\r\n");
 						CurPos.x = CurPos.x + (ReResult.step / STEP_METER) * arm_cos_f32((CurPos.Angle / 180) * PI);
 						CurPos.y = CurPos.y + (ReResult.step / STEP_METER) * arm_sin_f32((CurPos.Angle / 180) * PI);
 						

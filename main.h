@@ -156,6 +156,7 @@ extern char SelfConfluentEfficiency[TARGETNUM + 1];
 extern Position Cache1[TARGETNUM], Cache2[TARGETNUM];
 extern int Cache1Time, Cache2Time;
 extern int Result,T_TIMER;
+extern float SelfXDistance_f;
 
 
 

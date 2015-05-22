@@ -3,7 +3,7 @@
 float Globaldis;
 void vPathPlanTask(void *pvParameters)
 {
-	int Result;
+	//int Result;
 	char SendTrace[PACKET_LEN];
 	float *pfloat,dis,tempAngle;
 	int count = 0,total,end = 0;
@@ -52,7 +52,7 @@ setActiveArea(240,0,300,300);
 	while (1)
 	{
 		//stateTrans(preProcedure);
-		//Result = AssignResult[OrderIndex[SELFADDRESS]];
+//		Result = AssignResult[OrderIndex[SELFADDRESS]];
 		switch(GlobleCurProcedure.which_step)
 		{
 			case seenTarget: 
@@ -62,14 +62,29 @@ setActiveArea(240,0,300,300);
 			
 				GloblePathProcedure.which_step =  seenTarget;
 				TargetPos = GlobleCurProcedure.pvParameter.pos;
-				printf("Tarpos: %f %f %f\r\n",TargetPos.Angle,TargetPos.x,TargetPos.y);
+				Debug_printf("Tarpos: %f %f %f\r\n",TargetPos.Angle,TargetPos.x,TargetPos.y);
 				dis = sqrt(pow(TargetPos.y - CurPos.y, 2) + pow(TargetPos.x - CurPos.x, 2));
+				
+//				if(SelfXDistance_f > 0)
+//				{
+//					Debug_printf("dis1 SelfXDistance_f %f\r\n", SelfXDistance_f);
+//					dis = SelfXDistance_f;
+//				}
+//				else
+//				{
+//					Debug_printf("dis2 Result %d\r\n", Result);
+//					dis = sqrt(pow(TargetPos.y - CurPos.y, 2) + pow(TargetPos.x - CurPos.x, 2));
+//				}
 				Debug_printf("dis: %f\r\n", dis);
 				if(dis < 25)
 				{
 //					printf(" I am in dis < 50 \r\n");
-					TargetPos.x = TargetPos.x + 5 * arm_cos_f32((TargetPos.Angle / 180) * PI);
-					TargetPos.y = TargetPos.y + 5 * arm_sin_f32((TargetPos.Angle / 180) * PI);
+//					TargetPos.x = TargetPos.x + 5 * arm_cos_f32((TargetPos.Angle / 180) * PI);
+//					TargetPos.y = TargetPos.y + 5 * arm_sin_f32((TargetPos.Angle / 180) * PI);
+
+						dis = 25;
+						TargetPos.x = CurPos.x + dis * arm_cos_f32((TargetPos.Angle / 180) * PI);
+						TargetPos.y = CurPos.y + dis * arm_sin_f32((TargetPos.Angle / 180) * PI);
 					Debug_printf("set end=1\r\n");
 					end = 1;
 				}
