@@ -15,7 +15,7 @@ void vMovingControlTask(void *pvParameters)
 			while ((fabs(TargetPos.Angle - CurPos.Angle) > 180 ? 360 - fabs(TargetPos.Angle - CurPos.Angle) : fabs(TargetPos.Angle - CurPos.Angle)) * STEP_ANGLE >= ADJUST_STEP_ANGLE\
 				|| sqrt(pow(TargetPos.y - CurPos.y, 2) + pow(TargetPos.x - CurPos.x, 2)) * STEP_METER >= ADJUST_STEP_DIRECT)
 			{
-//				Debug_printf("TargetPos: %f %f %f\r\n", CurPos.Angle, CurPos.x, CurPos.y);
+//				Debug_printf("CurPos: %f %f %f\r\n", CurPos.Angle, CurPos.x, CurPos.y);
 //				Debug_printf("CurPos: %f %f %f\r\n", CurPos.Angle, CurPos.x, CurPos.y);
 //				Debug_printf("Compass: %f\r\n", CurAngle);
 //				Debug_printf("DAngle: %f\r\n", fabs(TargetPos.Angle - CurPos.Angle) * STEP_ANGLE);
@@ -29,7 +29,7 @@ void vMovingControlTask(void *pvParameters)
 					ExpectPos.y = CurPos.y;
 					DeltAngle = ExpectPos.Angle - CurPos.Angle;
 					
-					
+//					Debug_printf("DAngle: %f\r\n", DeltAngle);
 					if (DeltAngle > 180)
 					{
 						DeltAngle = DeltAngle - 360;
@@ -103,7 +103,7 @@ void vMovingControlTask(void *pvParameters)
 						}
 						if(pdTRUE == xSemaphoreTake(FoundTargetSyn, 1))
 						{
-//							Debug_printf("I am IN\r\n");
+							Debug_printf("I am IN 1\r\n");
 							TargetPos = CurPos;
 						}
 					}
@@ -191,7 +191,7 @@ void vMovingControlTask(void *pvParameters)
 						}
 						if(pdTRUE == xSemaphoreTake(FoundTargetSyn, 100))
 						{
-//							Debug_printf("I am IN\r\n");
+							Debug_printf("I am IN 2\r\n");
 							TargetPos = CurPos;
 						}
 					}
@@ -248,7 +248,7 @@ void vMovingControlTask(void *pvParameters)
 						}
 						if(pdTRUE == xSemaphoreTake(FoundTargetSyn, 1))
 						{
-//							Debug_printf("I am IN\r\n");
+							Debug_printf("I am IN 3\r\n");
 							TargetPos = CurPos;
 						}
 //						Debug_printf("return3\r\n");

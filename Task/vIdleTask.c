@@ -7,10 +7,10 @@ void vIdleTask(void *pvParameters)
 	while(1)
 	{
 		counter++;
-		if (second_Counter - temp > 3)
-		{
-			temp = second_Counter;
-			Debug_printf("I am idle!\n");
-		}
+//		if (second_Counter - temp > 1)
+//		{
+//			temp = second_Counter;
+//			Debug_printf("CurAngle is %f\r\n", CurAngle);
+//		}
 	}
 }

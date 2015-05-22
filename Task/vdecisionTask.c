@@ -254,7 +254,7 @@ void vDecisionTask(void *pvParameters)
 					}
 					break;
 				case patrol:
-					Debug_printf("vDecisionTask patrol\r\n");
+//					Debug_printf("vDecisionTask patrol\r\n");
 					if(-1 == Result)
 					{
 						//printf("i am in res = -1\r\n");

@@ -36,45 +36,58 @@ void vTraceForecastTask(void *pvParameters)
 		
 		
 		Result = AssignResult[OrderIndex[SELFADDRESS]];
-		Debug_printf("Result: %d\r\n",Result);
+//		Debug_printf("Result: %d\r\n",Result);
 		
 		
 		/*Determine whether there is data passed down*/
 		if(Result >= 0)
 		{
-			if(Cache1[Result].x >= (float)(0.03) ||  Cache1[Result].y >= (float)(0.03) || Cache2[Result].x >= (float)(0.03) ||  Cache2[Result].y >= (float)(0.03))
+			
+			Observ.angle = CurPos.Angle + (float) computeAngle(SelfXDistance[Result].f , 240 - SelfXCoordinate[Result].f);
+			Observ.x = CurPos.x + SelfXDistance[Result].f * arm_cos_f32((TargetPositionList[Result].Angle / 180) * PI);
+			Observ.y = CurPos.y + SelfXDistance[Result].f * arm_sin_f32((TargetPositionList[Result].Angle / 180) * PI);
+			if(abs(T_TIMER - Cache1Time) > abs(T_TIMER - Cache2Time))
 			{
-				MyHaveData = 1;
-				Debug_printf("have data\r\n");
-				if(abs(T_TIMER - Cache1Time) > abs(T_TIMER - Cache2Time))
-				{
-					Observ.x = Cache2[Result].x;
-					Observ.y = Cache2[Result].y;
-					Observ.angle = Cache2[Result].Angle;
-					Observ.time = Cache2Time;
-				}
-				else
-				{
-					Observ.x = Cache1[Result].x;
-					Observ.y = Cache1[Result].y;
-					Observ.angle = Cache1[Result].Angle;
-					Observ.time = Cache1Time;
-				}
+				Observ.time = Cache2Time;
+			}
+			else
+			{
+				Observ.time = Cache1Time;
+			}
+			
+			
+			
+//			if(Cache1[Result].x >= (float)(0.03) ||  Cache1[Result].y >= (float)(0.03) || Cache2[Result].x >= (float)(0.03) ||  Cache2[Result].y >= (float)(0.03))
+//			{
+//				MyHaveData = 1;
+//				Debug_printf("have data\r\n");
+//				if(abs(T_TIMER - Cache1Time) > abs(T_TIMER - Cache2Time))
+//				{
+//					Observ.x = Cache2[Result].x;
+//					Observ.y = Cache2[Result].y;
+//					Observ.angle = Cache2[Result].Angle;
+//					Observ.time = Cache2Time;
+//				}
+//				else
+//				{
+//					Observ.x = Cache1[Result].x;
+//					Observ.y = Cache1[Result].y;
+//					Observ.angle = Cache1[Result].Angle;
+//					Observ.time = Cache1Time;
+//				}
 			}
 			else
 			{
 				MyHaveData = 0;
-				Debug_printf("no data\r\n");
+//				Debug_printf("no data\r\n");
 			}
-		}
-		else
-			MyHaveData = 0;
+		
 		
 
 		/*Do part of the decision*/
 		if(MyHaveData == 0 && preFlag == 0)//没数据也没启动滤波
 		{
-			Debug_printf("0 0\r\n");
+//			Debug_printf("0 0\r\n");
 			HaveData = 0;
 			totol_num = 0;
 			GloblePathProcedure.which_step =  patrol;

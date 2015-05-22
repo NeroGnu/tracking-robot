@@ -22,7 +22,7 @@ void tTimerCallback( xTimerHandle pxTimer )
 		}
 		
 		
-		Debug_printf("T_TIMER1:%d\r\n",T_TIMER);
+//		Debug_printf("T_TIMER1:%d\r\n",T_TIMER);
 		xSemaphoreGive(TimerxSyn);
 		return;
 		
@@ -32,8 +32,8 @@ void tTimerCallback( xTimerHandle pxTimer )
 		if( xTimerChangePeriod( xTimers, TAKE_DATA_TIME - (int)(Timer2Counter%T_TAKE_DATA_TIME)/10, 0 ) == pdPASS )
 		{
 				/* The command was successfully sent. */
-				Debug_printf("T_TIMER:%d\r\n",T_TIMER);
-				Debug_printf("PASS2 %d\r\n",TAKE_DATA_TIME - (int)(D_value/10));
+//				Debug_printf("T_TIMER:%d\r\n",T_TIMER);
+//				Debug_printf("PASS2 %d\r\n",TAKE_DATA_TIME - (int)(D_value/10));
 		}
 		return;
 	}

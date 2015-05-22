@@ -18,7 +18,8 @@ void vPathPlanTask(void *pvParameters)
 //	total = generate_Pos(0,90,120,300);
 #ifdef No1
 //	setActiveArea(105,0,300,75);
-	setActiveArea(0,0,90,300);
+//	setActiveArea(0,0,90,300);
+setActiveArea(240,0,300,300);
 #endif
 
 #ifdef No2
@@ -33,7 +34,8 @@ void vPathPlanTask(void *pvParameters)
 
 #ifdef No4
 //	setActiveArea(225,105,300,300);
-	setActiveArea(120,0,180,300);
+//	setActiveArea(120,0,180,300);
+setActiveArea(240,0,300,300);
 #endif
 
 #ifdef No5
@@ -41,7 +43,7 @@ void vPathPlanTask(void *pvParameters)
 	setActiveArea(240,0,300,300);
 #endif
 
-	Debug_printf("vPathPlanTask");
+//	Debug_printf("vPathPlanTask");
 	GlobleCurProcedure.which_step = patrol;
 	GloblePathProcedure.which_step = patrol;
 	//No3 No4
@@ -60,7 +62,7 @@ void vPathPlanTask(void *pvParameters)
 			
 				GloblePathProcedure.which_step =  seenTarget;
 				TargetPos = GlobleCurProcedure.pvParameter.pos;
-//				printf("Tarpos: %f %f %f\r\n",TargetPos.Angle,TargetPos.x,TargetPos.y);
+				printf("Tarpos: %f %f %f\r\n",TargetPos.Angle,TargetPos.x,TargetPos.y);
 				dis = sqrt(pow(TargetPos.y - CurPos.y, 2) + pow(TargetPos.x - CurPos.x, 2));
 				Debug_printf("dis: %f\r\n", dis);
 				if(dis < 25)
@@ -94,7 +96,7 @@ void vPathPlanTask(void *pvParameters)
 				vTaskDelay(1500);
 				break;
 			case patrol:
-//				Debug_printf("patrol\r\n");
+				Debug_printf("patrol\r\n");
 				GloblePathProcedure.which_step =  patrol;
 				
 #ifdef ENABLE_PATROL	
@@ -124,8 +126,8 @@ void vPathPlanTask(void *pvParameters)
 //					TargetPos = CurPos;
 //					vTaskDelay(1000);
 //				printf("end patrol\r\n");
-//				printf("Curpos: %f %f %f\r\n",CurPos.Angle,CurPos.x,CurPos.y);
-//				printf("Tarpos: %f %f %f\r\n",TargetPos.Angle,TargetPos.x,TargetPos.y);
+//				Debug_printf("Curpos: %f %f %f\r\n",CurPos.Angle,CurPos.x,CurPos.y);
+//				Debug_printf("Tarpos: %f %f %f\r\n",TargetPos.Angle,TargetPos.x,TargetPos.y);
 				break;
 			case goToOtherTar:
 				GloblePathProcedure.which_step =  goToOtherTar;
@@ -179,10 +181,10 @@ void vPathPlanTask(void *pvParameters)
 //		Debug_printf("Tarpos: %f %f %f\r\n",TargetPos.Angle,TargetPos.x,TargetPos.y);
 //	  Debug_printf("CC2500TxQueue over\r\n");
 		xQueueSend(TargetPosQueue, &TargetPos, portMAX_DELAY);
-////		Debug_printf("TargetPosQueue over\r\n");
+//		Debug_printf("TargetPosQueue over\r\n");
 		xSemaphoreTake(MoveComplete, portMAX_DELAY);
 //		Debug_printf("MoveComplete over\r\n");
-//		vTaskDelay(100);
+//		vTaskDelay(100);  
 		
 		if(end)
 		{

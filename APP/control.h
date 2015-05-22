@@ -4,9 +4,9 @@
 
 #define DEBUG
 
-#define No5 
+#define No5	 
 
-//#define ENABLE_PATROL
+#define ENABLE_PATROL
 
 #ifdef No1
 	#define STEP_ANGLE (2.84444444444444)  //×ª½Ç±ÈÀý

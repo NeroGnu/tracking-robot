@@ -7,7 +7,7 @@
 #include "arm_math.h"
 
 #ifdef No1
-Position CurPos = {90,0,-10};
+Position CurPos = {90,240,-10};
 #endif
 
 #ifdef No2
@@ -19,7 +19,7 @@ Position CurPos = {90,240,-10};
 #endif
 
 #ifdef No4
-Position CurPos = {90,120,-10};
+Position CurPos = {90,240,-10};
 #endif
 
 #ifdef No5
