@@ -126,13 +126,15 @@ void vBCRxGuardianTask(void *pvParameters)
 				SelfXDistance[i].c[1] = pfloat[RE_TARGETNUM + i].c[1];
 				SelfXDistance[i].c[2] = pfloat[RE_TARGETNUM + i].c[2];
 				SelfXDistance[i].c[3] = pfloat[RE_TARGETNUM + i].c[3];
+				
 				//flush cache1.
 				Cache1[i] = Cache2[i];
 				
 				if (0 < (signed char)BCRxBuffer[i] || SelfXDistance[i].f > 0.001)
 				{
 					//If the the distance changed.
-					Globaldis = SelfXDistance[i].f;
+					DistanceSurp0[i] = SelfXDistance[i];
+					//now_res = i;
 					//compute angle.
 					TargetPositionList[i].Angle = CurPos.Angle + (float) computeAngle(SelfXDistance[i].f , 240 - SelfXCoordinate[i].f);
 					//compute X, Y coordinate.
@@ -288,7 +290,7 @@ void ProcessVideoResult()
 		{
 			//printf("2\r\n");
 //			printf("SelfXDistance :%f \r\n",SelfXDistance[i].f);
-			Globaldis = SelfXDistance[i].f;
+//			Globaldis = SelfXDistance[i].f;
 			TargetPositionList[i].Angle = CurPos.Angle + (float) computeAngle(SelfXDistance[i].f , 240 - SelfXCoordinate[i].f);
 			deltax = SelfXDistance[i].f * arm_cos_f32((TargetPositionList[i].Angle / 180) * PI);
 			deltay = SelfXDistance[i].f * arm_sin_f32((TargetPositionList[i].Angle / 180) * PI);

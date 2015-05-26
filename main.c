@@ -99,6 +99,8 @@ xTimerHandle xTimers;
 char SelfTargetInformation[TARGETINFORMATIONLENGTH] = {SELFADDRESS, 0};
 FloatToChar SelfXCoordinate[TARGETNUM];
 FloatToChar SelfXDistance[TARGETNUM];
+FloatToChar DistanceSurp0[TARGETNUM] = {0.0};
+int now_res = 0;
 
 volatile float CurAngle = 0;
 

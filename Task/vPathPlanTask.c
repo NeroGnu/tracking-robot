@@ -1,6 +1,5 @@
 #include "main.h"
 
-float Globaldis;
 void vPathPlanTask(void *pvParameters)
 {
 	//int Result;
@@ -63,7 +62,7 @@ setActiveArea(240,0,300,300);
 				GloblePathProcedure.which_step =  seenTarget;
 				TargetPos = GlobleCurProcedure.pvParameter.pos;
 				Debug_printf("Tarpos: %f %f %f\r\n",TargetPos.Angle,TargetPos.x,TargetPos.y);
-				dis = sqrt(pow(TargetPos.y - CurPos.y, 2) + pow(TargetPos.x - CurPos.x, 2));
+//				dis = sqrt(pow(TargetPos.y - CurPos.y, 2) + pow(TargetPos.x - CurPos.x, 2));
 				
 //				if(SelfXDistance_f > 0)
 //				{
@@ -75,6 +74,7 @@ setActiveArea(240,0,300,300);
 //					Debug_printf("dis2 Result %d\r\n", Result);
 //					dis = sqrt(pow(TargetPos.y - CurPos.y, 2) + pow(TargetPos.x - CurPos.x, 2));
 //				}
+				dis = DistanceSurp0[now_res].f;
 				Debug_printf("dis: %f\r\n", dis);
 				if(dis < 25)
 				{
@@ -91,8 +91,10 @@ setActiveArea(240,0,300,300);
 				else
 				{
 					Debug_printf(" I am in dis>25 \r\n");
-					TargetPos.x = TargetPos.x - 0.9 * dis * arm_cos_f32((TargetPos.Angle / 180) * PI);
-					TargetPos.y = TargetPos.y - 0.9 * dis * arm_sin_f32((TargetPos.Angle / 180) * PI);
+					TargetPos.x = CurPos.x + 0.1*dis * arm_cos_f32((TargetPos.Angle / 180) * PI);
+					TargetPos.y = CurPos.y + 0.1*dis * arm_sin_f32((TargetPos.Angle / 180) * PI);
+//					TargetPos.x = TargetPos.x - 0.9 * dis * arm_cos_f32((TargetPos.Angle / 180) * PI);
+//					TargetPos.y = TargetPos.y - 0.9 * dis * arm_sin_f32((TargetPos.Angle / 180) * PI);
 				}
 //				printf("Curpos: %f %f %f\r\n",CurPos.Angle,CurPos.x,CurPos.y);
 //				printf("Tarpos: %f %f %f\r\n",TargetPos.Angle,TargetPos.x,TargetPos.y);

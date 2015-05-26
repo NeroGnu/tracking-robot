@@ -37,12 +37,14 @@ void vTraceForecastTask(void *pvParameters)
 		
 		
 		Result = AssignResult[OrderIndex[SELFADDRESS]];
+		
 //		Debug_printf("Result: %d\r\n",Result);
 		
 		SelfXDistance_f = SelfXDistance[Result].f;
 		/*Determine whether there is data passed down*/
 		if(Result >= 0)
 		{
+			now_res = Result;
 			MyHaveData = 1;
 //			Observ.angle = CurPos.Angle + (float) computeAngle(SelfXDistance[Result].f , 240 - SelfXCoordinate[Result].f);
 //			Observ.x = CurPos.x + SelfXDistance[Result].f * arm_cos_f32((TargetPositionList[Result].Angle / 180) * PI);
@@ -94,7 +96,7 @@ void vTraceForecastTask(void *pvParameters)
 //			Debug_printf("0 0\r\n");
 			HaveData = 0;
 			totol_num = 0;
-			GloblePathProcedure.which_step =  patrol;
+			//GloblePathProcedure.which_step =  patrol;
 		}
 		else if(MyHaveData == 1 && preFlag == 0)//上面传过来数据，但还没进入滤波
 		{

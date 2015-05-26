@@ -140,9 +140,11 @@ extern xSemaphoreHandle TimerxSyn;
 extern char SelfTargetInformation[TARGETINFORMATIONLENGTH];
 extern FloatToChar SelfXCoordinate[TARGETNUM];
 extern FloatToChar SelfXDistance[TARGETNUM];
+extern FloatToChar DistanceSurp0[TARGETNUM];
+extern int now_res;
+
 
 extern volatile float CurAngle;
-extern float Globaldis;
 
 extern volatile int goflag, ComfirAlreadyflag;
 extern int count_change_angle, count_change_pos,isFindOver;
