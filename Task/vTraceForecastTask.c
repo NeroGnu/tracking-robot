@@ -45,6 +45,8 @@ void vTraceForecastTask(void *pvParameters)
 		if(Result >= 0)
 		{
 			now_res = Result;
+			if(SeeTargetPosList[now_res].update == 1)
+			{
 			MyHaveData = 1;
 //			Observ.angle = CurPos.Angle + (float) computeAngle(SelfXDistance[Result].f , 240 - SelfXCoordinate[Result].f);
 //			Observ.x = CurPos.x + SelfXDistance[Result].f * arm_cos_f32((TargetPositionList[Result].Angle / 180) * PI);
@@ -82,6 +84,12 @@ void vTraceForecastTask(void *pvParameters)
 //					Observ.time = Cache1Time;
 //				}
 			}
+			else
+			{
+				MyHaveData = 0;
+//				Debug_printf("no data\r\n");
+			}
+		}
 			else
 			{
 				MyHaveData = 0;

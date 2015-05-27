@@ -18,7 +18,7 @@ void vPathPlanTask(void *pvParameters)
 #ifdef No1
 //	setActiveArea(105,0,300,75);
 //	setActiveArea(0,0,90,300);
-setActiveArea(240,0,300,300);
+setActiveArea(0,0,60,300);
 #endif
 
 #ifdef No2
@@ -34,12 +34,12 @@ setActiveArea(240,0,300,300);
 #ifdef No4
 //	setActiveArea(225,105,300,300);
 //	setActiveArea(120,0,180,300);
-setActiveArea(240,0,300,300);
+setActiveArea(90,0,120,300);
 #endif
 
 #ifdef No5
 //	setActiveArea(105,105,195,195);
-	setActiveArea(240,0,300,300);
+	setActiveArea(150,0,210,300);
 #endif
 
 //	Debug_printf("vPathPlanTask");
