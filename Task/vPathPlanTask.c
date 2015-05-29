@@ -7,7 +7,7 @@ void vPathPlanTask(void *pvParameters)
 	float *pfloat,dis,tempAngle;
 	int count = 0,total,end = 0;
 	int tmpcount=1;
-	Position TargetPos = CurPos;
+	Position TargetPos = CurPos,lastTargetPos;
 	Position prePos = CurPos;
 	SendTrace[0] = 0x00;
 	SendTrace[1] = SELFADDRESS;
@@ -55,7 +55,7 @@ setActiveArea(90,0,120,300);
 		switch(GlobleCurProcedure.which_step)
 		{
 			case seenTarget: 
-				Debug_printf("seenTarget\r\n");
+				Debug_printf("c\r\n");
 				isFindOver = 0;
 				tmpcount = 0;
 			
@@ -76,13 +76,18 @@ setActiveArea(90,0,120,300);
 //				}
 				dis = DistanceSurp0[now_res].f;
 				Debug_printf("dis: %f\r\n", dis);
-				if(dis < 25)
+				if(dis < 1.0)
+				{
+					TargetPos = lastTargetPos;
+					Debug_printf("dis < 1\r\n");
+				}
+				else if(dis < 25)
 				{
 //					printf(" I am in dis < 50 \r\n");
 //					TargetPos.x = TargetPos.x + 5 * arm_cos_f32((TargetPos.Angle / 180) * PI);
 //					TargetPos.y = TargetPos.y + 5 * arm_sin_f32((TargetPos.Angle / 180) * PI);
 
-						dis = 25;
+						dis = 50;
 						TargetPos.x = CurPos.x + dis * arm_cos_f32((TargetPos.Angle / 180) * PI);
 						TargetPos.y = CurPos.y + dis * arm_sin_f32((TargetPos.Angle / 180) * PI);
 					Debug_printf("set end=1\r\n");
@@ -93,6 +98,7 @@ setActiveArea(90,0,120,300);
 					Debug_printf(" I am in dis>25 \r\n");
 					TargetPos.x = CurPos.x + 0.1*dis * arm_cos_f32((TargetPos.Angle / 180) * PI);
 					TargetPos.y = CurPos.y + 0.1*dis * arm_sin_f32((TargetPos.Angle / 180) * PI);
+					lastTargetPos = TargetPos;
 //					TargetPos.x = TargetPos.x - 0.9 * dis * arm_cos_f32((TargetPos.Angle / 180) * PI);
 //					TargetPos.y = TargetPos.y - 0.9 * dis * arm_sin_f32((TargetPos.Angle / 180) * PI);
 				}
@@ -198,9 +204,9 @@ setActiveArea(90,0,120,300);
 //		Debug_printf("Tarpos: %f %f %f\r\n",TargetPos.Angle,TargetPos.x,TargetPos.y);
 //	  Debug_printf("CC2500TxQueue over\r\n");
 		xQueueSend(TargetPosQueue, &TargetPos, portMAX_DELAY);
-//		Debug_printf("TargetPosQueue over\r\n");
+		Debug_printf("TargetPosQueue over\r\n");
 		xSemaphoreTake(MoveComplete, portMAX_DELAY);
-//		Debug_printf("MoveComplete over\r\n");
+		Debug_printf("MoveComplete over\r\n");
 //		vTaskDelay(100);  
 		
 		if(end)

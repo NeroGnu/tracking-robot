@@ -7,6 +7,7 @@ Position alreadySeenPos,alreadyOtherPos;
 void handleResNotNeg(int Result,Procedure toPro)
 {
 	Position tmpPos;
+	float OtherSeeDis = 0.0;
 //	printf("SelfTargetInformation[Result+1]: %d\r\n",SelfTargetInformation[Result+1]);
 //	if( HaveData == 1)
 //	{
@@ -73,37 +74,48 @@ void handleResNotNeg(int Result,Procedure toPro)
 			}
 			else
 			{
-				Debug_printf("update0\r\n");
-				if(GlobleCurProcedure.which_step != goToOtherTar && GlobleCurProcedure.which_step != seenTarget)
+				
+				OtherSeeDis = sqrt(pow(SeeTargetPosList[Result].y - CurPos.y, 2) + pow(SeeTargetPosList[Result].x - CurPos.x, 2));
+				Debug_printf("OtherSeeDis %f\r\n",OtherSeeDis);
+				Debug_printf("0.5*second_Counter %f\r\n",0.5*second_Counter);
+				if(OtherSeeDis < 0.5*second_Counter )
 				{
-					
-					if (pdTRUE == xSemaphoreTake(MoveStopEnable, 10))
+					Debug_printf("update0\r\n");
+					if(GlobleCurProcedure.which_step != goToOtherTar && GlobleCurProcedure.which_step != seenTarget)
 					{
-						Debug_printf("needStop\r\n");
-						USART2->SR;
-						USART_SendData(UART4, '!');
-						xSemaphoreGive(MoveStopEnable);
 						
-						xSemaphoreGive(FoundTargetSyn);					//??vMovingControlTask??,????????
+						if (pdTRUE == xSemaphoreTake(MoveStopEnable, 10))
+						{
+							Debug_printf("needStop\r\n");
+							USART2->SR;
+							USART_SendData(UART4, '!');
+							xSemaphoreGive(MoveStopEnable);
+							
+							xSemaphoreGive(FoundTargetSyn);					//??vMovingControlTask??,????????
+						}
 					}
+					GlobleCurProcedure.which_step = goToOtherTar;
+					GlobleCurProcedure.pvParameter.pos.Angle =  SeeTargetPosList[Result].Angle;
+					GlobleCurProcedure.pvParameter.pos.x = SeeTargetPosList[Result].x;
+					GlobleCurProcedure.pvParameter.pos.y = SeeTargetPosList[Result].y;
+					alreadyOtherPos = GlobleCurProcedure.pvParameter.pos;
 				}
-				GlobleCurProcedure.which_step = goToOtherTar;
-				GlobleCurProcedure.pvParameter.pos.Angle =  SeeTargetPosList[Result].Angle;
-				GlobleCurProcedure.pvParameter.pos.x = SeeTargetPosList[Result].x;
-				GlobleCurProcedure.pvParameter.pos.y = SeeTargetPosList[Result].y;
-				alreadyOtherPos = GlobleCurProcedure.pvParameter.pos;
-//				printf("SeeTargetPosList[%d]: %f %f %f\r\n",Result,SeeTargetPosList[Result].Angle,SeeTargetPosList[Result].x,SeeTargetPosList[Result].y);
-				while(GloblePathProcedure.which_step != goToOtherTar)
+				else
 				{
-					Debug_printf("die\r\n");
-					vTaskDelay(10);
+					GlobleCurProcedure.which_step = patrol;
 				}
+//				printf("SeeTargetPosList[%d]: %f %f %f\r\n",Result,SeeTargetPosList[Result].Angle,SeeTargetPosList[Result].x,SeeTargetPosList[Result].y);
+//				while(GloblePathProcedure.which_step != goToOtherTar)
+//				{
+//					Debug_printf("die\r\n");
+//					vTaskDelay(10);
+//				}
 			}
 			
 		}
 		else
 		{
-			if(GlobleCurProcedure.which_step == looseTarget)				//专门对于looseTarget
+			if(GlobleCurProcedure.which_step == looseTarget)				//????looseTarget
 			{
 				if(isFindOver == 1)
 					GlobleCurProcedure.which_step = patrol;

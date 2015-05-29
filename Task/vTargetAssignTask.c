@@ -88,7 +88,11 @@ void vTargetAssignTask(void *pvParameters)
 //      printf("SelfConfluentEfficiency: %d %d %d %d %d %d\r\n", SelfConfluentEfficiency[1]);//, SelfConfluentEfficiency[2], SelfConfluentEfficiency[3], SelfConfluentEfficiency[4], SelfConfluentEfficiency[5], SelfConfluentEfficiency[6]);
       
 			efficiency = TargetAssign(matrix_efficiency, &matrix_ans);
+			/*********************************check*****************************/
+			Comparison(&matrix_efficiency, &matrix_ans, &second_Counter);
 			
+			
+			/*******************************************************************/
 			for (i = 0; i < MAXNUM; i++)
 			{
 				arm_max_q7(&matrix_ans.Data[i][0], TARGETNUM, &tempmax, &tempindex);

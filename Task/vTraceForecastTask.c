@@ -45,7 +45,8 @@ void vTraceForecastTask(void *pvParameters)
 		if(Result >= 0)
 		{
 			now_res = Result;
-			if(SeeTargetPosList[now_res].update == 1)
+//			if(SeeTargetPosList[now_res].update == 1)
+			if(TargetPositionList[now_res].x != -1 || TargetPositionList[now_res].y != -1 )
 			{
 			MyHaveData = 1;
 //			Observ.angle = CurPos.Angle + (float) computeAngle(SelfXDistance[Result].f , 240 - SelfXCoordinate[Result].f);

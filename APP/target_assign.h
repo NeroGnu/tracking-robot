@@ -5,8 +5,8 @@
 #include "arm_math.h"
 #include "shell.h"
 
-#define M 16  // MAX_NUM
-#define N 16  // MAX_TARGET
+#define M (16)  // MAX_NUM
+#define N (16)  // MAX_TARGET
 
 #define TARGETNUM (6)
 
@@ -19,6 +19,14 @@ typedef struct
 	u8 numCols;
 	s8 Data[M][N];
 } matrix_u8;
+
+//typedef struct
+//{
+//	u8 numRows;
+//	u8 numCols;
+//	float Data[M][N];
+//} matrix_float;
+
 
 typedef struct
 {	
@@ -34,6 +42,7 @@ typedef struct
 int TargetAssign(matrix_u8 matrix, matrix_u8 *ans);
 void Init_Matrix(matrix_u8 *matrix, u8 row, u8 col, s8 value);
 void Indexing(u8 index[], u8 list[], int length);
+void Comparison(matrix_u8 *matrix_efficiency, matrix_u8 *ans, u32 *time);
 
 extern char TargetInformationBuffer[][TARGETINFORMATIONLENGTH];
 extern IO_Pool TargetInformationPool;

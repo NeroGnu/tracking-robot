@@ -269,7 +269,7 @@ void TraceExchange(void *pvParameters)
 		tempNode.y2 = pfloat[3];
 		tempNode.UpdateTime = Timer2Counter;
 		
-		printf("ID %X %f %f %f %f\r\n", tempNode.ID, tempNode.x1, tempNode.y1, tempNode.x2, tempNode.y2);
+//		printf("ID %X %f %f %f %f\r\n", tempNode.ID, tempNode.x1, tempNode.y1, tempNode.x2, tempNode.y2);
 		
 		xQueueSend(TraceNodeQueue, &tempNode, portMAX_DELAY);
 	}
@@ -304,7 +304,7 @@ void SeeTargetPosExchange(void *pvParameters)
 		puint->c[2] = tempUITC.c[2];
 		puint->c[3] = tempUITC.c[3];
 		
-		printf("other see\r\n");
+//		printf("other see\r\n");
 //	pfloatT = (FloatToChar*) &pinBuffer[1];
 //	puint = (UIntToChar*) &pfloatT[3];
 //	pint = (IntToChar*) &pfloatT[4];

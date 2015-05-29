@@ -94,7 +94,7 @@ void vBCRxGuardianTask(void *pvParameters)
 			{
 				if (LastEfficiency[1 + i] != BCRxBuffer[i])
 				{
-					Debug_printf("LastEfficiency[%d]:%d, BCRxBuffer[%d]:%d\r\n", i, LastEfficiency[1 + i], i, BCRxBuffer[i]);
+//					Debug_printf("LastEfficiency[%d]:%d, BCRxBuffer[%d]:%d\r\n", i, LastEfficiency[1 + i], i, BCRxBuffer[i]);
 					ChangeFlag = 1;
 					if (0 >= LastEfficiency[1 + i] && 0 < BCRxBuffer[i])
 					{
@@ -103,7 +103,7 @@ void vBCRxGuardianTask(void *pvParameters)
 							USART2->SR;
 							USART_SendData(UART4, '!');
 							xSemaphoreGive(MoveStopEnable);
-							Debug_printf("Force update current postion.\r\n");
+//							Debug_printf("Force update current postion.\r\n");
 							break;
 						}
 					}

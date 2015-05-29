@@ -9,6 +9,12 @@ IO_Pool TargetInformationPool = {0, 0, TARGETINFORMATIONQUEUE, TARGETINFORMATION
 u8 OrderIndex[LIMITNODENUM + 2] = {0};
 int AssignResult[MAXNUM] = {0};
 
+
+float MySigmoid(float median, float divider, u32 x)
+{
+	return 1/(exp((median - x) / divider) + 1);
+}
+
 void Init_Matrix(matrix_u8 *matrix, u8 row, u8 col, s8 value)
 {
 	matrix->numRows = row;
@@ -170,4 +176,33 @@ int TargetAssign(matrix_u8 matrix, matrix_u8 *ans)
 	
 	matrix_dot_multiply(&matrix_b, ans, &matrix_b);
 	return matrix_sum(&matrix_b);
+}
+
+void Comparison(matrix_u8 *matrix_efficiency, matrix_u8 *ans, u32 *time)
+{
+	matrix_u8 matrix_ope;
+//	matrix_float comparison_res;
+	u32 tempindex;
+	s8 tempmax_s8;
+	int i, j;
+	
+	Init_Matrix(&matrix_ope, MAXNUM, TARGETNUM, 0);
+//	arm_fill_f32(1.1, &comparison_res.Data[0][0], M*N);
+	matrix_dot_multiply(matrix_efficiency, ans, &matrix_ope);
+	
+	for (j = 0; j < TARGETNUM; j++)
+	{
+		col_max_q7(&matrix_ope.Data[0][j], matrix_ope.numRows, N, &tempmax_s8, &tempindex);
+		for (i = 0; i < MAXNUM; i++)
+		{
+			if (1 == ans->Data[i][j])
+			{
+//				comparison_res.Data[i][j] = ((float) (tempmax_s8 - matrix_ope.Data[i][j])) / matrix_ope.Data[i][j];
+				if (((float) (tempmax_s8 - matrix_ope.Data[i][j])) / matrix_ope.Data[i][j] > MySigmoid(150, 8, *time))
+				{
+					ans->Data[i][j] = 0;
+				}
+			}
+		}
+	}
 }
