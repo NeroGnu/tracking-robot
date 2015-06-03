@@ -1,11 +1,12 @@
 #include "main.h"
 
+int end = 0;
 void vPathPlanTask(void *pvParameters)
 {
 	//int Result;
 	char SendTrace[PACKET_LEN];
 	float *pfloat,dis,tempAngle;
-	int count = 0,total,end = 0;
+	int count = 0,total;
 	int tmpcount=1;
 	Position TargetPos = CurPos,lastTargetPos;
 	Position prePos = CurPos;
@@ -81,13 +82,23 @@ setActiveArea(90,0,120,300);
 					TargetPos = lastTargetPos;
 					Debug_printf("dis < 1\r\n");
 				}
-				else if(dis < 25)
+				else if(dis < 30)
 				{
 //					printf(" I am in dis < 50 \r\n");
 //					TargetPos.x = TargetPos.x + 5 * arm_cos_f32((TargetPos.Angle / 180) * PI);
 //					TargetPos.y = TargetPos.y + 5 * arm_sin_f32((TargetPos.Angle / 180) * PI);
-
-						dis = 50;
+						if (pdTRUE == xSemaphoreTake(MoveStopEnable, 10))
+						{
+							Debug_printf("needStop\r\n");
+							USART2->SR;
+							USART_SendData(UART4, '!');
+							xSemaphoreGive(MoveStopEnable);
+							
+							xSemaphoreGive(FoundTargetSyn);					//??vMovingControlTask??,????????
+						}
+						
+						vTaskDelay(50);
+						dis = 35;
 						TargetPos.x = CurPos.x + dis * arm_cos_f32((TargetPos.Angle / 180) * PI);
 						TargetPos.y = CurPos.y + dis * arm_sin_f32((TargetPos.Angle / 180) * PI);
 					Debug_printf("set end=1\r\n");

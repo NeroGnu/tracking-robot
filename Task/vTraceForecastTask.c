@@ -115,7 +115,7 @@ void vTraceForecastTask(void *pvParameters)
 			SeenPos.y = Observ.y;
 			Debug_printf("SeenPos: %f %f %f\r\n",SeenPos.Angle,SeenPos.x,SeenPos.y);
 			Debug_printf("1 0\r\n");
-			if(GlobleCurProcedure.which_step != seenTarget)
+			if(GlobleCurProcedure.which_step != seenTarget  && end == 0)
 			{
 				Debug_printf("I see you\r\n");
 				
@@ -165,7 +165,7 @@ void vTraceForecastTask(void *pvParameters)
 			SeenPos.x = Observ.x;
 			SeenPos.y = Observ.y;
 			
-			if(GlobleCurProcedure.which_step != seenTarget)
+			if(GlobleCurProcedure.which_step != seenTarget  && end == 0)
 			{
 				Debug_printf("I see you\r\n");
 				
@@ -216,7 +216,7 @@ void vTraceForecastTask(void *pvParameters)
 			SeenPos.x = Observ.x;
 			SeenPos.y = Observ.y;
 			
-			if(GlobleCurProcedure.which_step != seenTarget)
+			if(GlobleCurProcedure.which_step != seenTarget && end == 0)
 			{
 				Debug_printf("I see you\r\n");
 				

@@ -52,7 +52,7 @@ void handleResNotNeg(int Result,Procedure toPro)
 			{
 				Debug_printf("update1\r\n");
 //				tempRes = Result;
-				if(GlobleCurProcedure.which_step != seenTarget )
+				if(GlobleCurProcedure.which_step != seenTarget  && end == 0)
 				{
 					Debug_printf("I see you\r\n");
 					
@@ -78,10 +78,10 @@ void handleResNotNeg(int Result,Procedure toPro)
 				OtherSeeDis = sqrt(pow(SeeTargetPosList[Result].y - CurPos.y, 2) + pow(SeeTargetPosList[Result].x - CurPos.x, 2));
 				Debug_printf("OtherSeeDis %f\r\n",OtherSeeDis);
 				Debug_printf("0.5*second_Counter %f\r\n",0.5*second_Counter);
-				if(OtherSeeDis < 0.5*second_Counter )
+				if(OtherSeeDis < 0.5*second_Counter || Result == 0)
 				{
 					Debug_printf("update0\r\n");
-					if(GlobleCurProcedure.which_step != goToOtherTar && GlobleCurProcedure.which_step != seenTarget)
+					if(GlobleCurProcedure.which_step != goToOtherTar && GlobleCurProcedure.which_step != seenTarget && end == 0)
 					{
 						
 						if (pdTRUE == xSemaphoreTake(MoveStopEnable, 10))

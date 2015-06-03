@@ -141,7 +141,7 @@ extern char SelfTargetInformation[TARGETINFORMATIONLENGTH];
 extern FloatToChar SelfXCoordinate[TARGETNUM];
 extern FloatToChar SelfXDistance[TARGETNUM];
 extern FloatToChar DistanceSurp0[TARGETNUM];
-extern int now_res;
+extern int now_res,end;
 
 
 extern volatile float CurAngle;
