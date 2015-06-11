@@ -11,7 +11,7 @@ Position CurPos = {90,0,-10};
 #endif
 
 #ifdef No2
-Position CurPos = {90,240,-10};
+Position CurPos = {90,90,-10};
 #endif
 
 #ifdef No3

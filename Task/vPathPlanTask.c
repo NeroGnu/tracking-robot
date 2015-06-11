@@ -24,7 +24,7 @@ setActiveArea(0,0,60,300);
 
 #ifdef No2
 //	setActiveArea(0,0,75,195);
-	setActiveArea(240,0,300,300);
+	setActiveArea(90,0,120,300);
 #endif
 
 #ifdef No3
